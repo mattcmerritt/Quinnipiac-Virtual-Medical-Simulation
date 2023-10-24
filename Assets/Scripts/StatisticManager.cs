@@ -20,9 +20,13 @@ public class StatisticManager : MonoBehaviour
     // Singleton reference
     public static StatisticManager Instance;
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
         Statistics = new List<Statistic>();
     }
 
