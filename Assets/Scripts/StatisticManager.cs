@@ -14,6 +14,7 @@ public class StatisticManager : MonoBehaviour
         public float Accuracy;
     }
 
+    public static event Action<Statistic> OnStatisticAdded;
     [SerializeField] private List<Statistic> Statistics;
 
     // Singleton reference
@@ -36,5 +37,6 @@ public class StatisticManager : MonoBehaviour
         };
 
         Statistics.Add(newStatistic);
+        OnStatisticAdded?.Invoke(newStatistic);
     }
 }
