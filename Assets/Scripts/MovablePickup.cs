@@ -8,6 +8,23 @@ public class MovablePickup : Trackable
     [SerializeField] private bool Selected;
     [SerializeField] private GameObject Target;
 
+    protected new void Start()
+    {
+        base.Start();
+
+        if (Target == null)
+        {
+            XRSocketInteractor[] sockets = FindObjectsOfType<XRSocketInteractor>();
+            foreach (XRSocketInteractor socket in sockets)
+            {
+                if (socket.name.Contains("(End)"))
+                {
+                    Target = socket.gameObject;
+                }
+            }
+        }
+    }
+
     private void Update()
     {
         if (Selected)
