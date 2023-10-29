@@ -5,38 +5,17 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class MovablePickup : Trackable
 {
-    [SerializeField] private bool Selected;
+    [SerializeField] private string TargetName;
     [SerializeField] private GameObject Target;
 
     protected new void Start()
     {
         base.Start();
 
-        if (Target == null)
+        if (TargetName != null)
         {
-            XRSocketInteractor[] sockets = FindObjectsOfType<XRSocketInteractor>();
-            foreach (XRSocketInteractor socket in sockets)
-            {
-                if (socket.name.Contains("(End)"))
-                {
-                    Target = socket.gameObject;
-                }
-            }
+            Target = GameObject.Find(TargetName);
         }
-    }
-
-    private void Update()
-    {
-        if (Selected)
-        {
-            Duration += Time.deltaTime;
-        }
-    }
-
-    // Debug method for testing
-    public void Notify(string content)
-    {
-        Debug.Log(gameObject.name + ": " + content);
     }
 
     public void Select(SelectEnterEventArgs selectEnterEventArgs)
@@ -45,7 +24,7 @@ public class MovablePickup : Trackable
         // as soon as the player first picks up the object, start tracking the time
         if (selectEnterEventArgs.interactorObject.transform.CompareTag("Player"))
         {
-            Selected = true;
+            Activate();
         }
         // otherwise if the object is selected by a non-player object (likely a socket), check if target
         // if target, task is completed and statistic is issued
@@ -53,8 +32,7 @@ public class MovablePickup : Trackable
         {
             if (selectEnterEventArgs.interactorObject.transform.gameObject == Target)
             {
-                Selected = false;
-                Accuracy = 1.0f;
+                Deactivate(1);
                 CompleteStatistic();
             }
         }
