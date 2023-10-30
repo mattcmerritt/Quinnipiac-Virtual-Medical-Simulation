@@ -12,7 +12,7 @@ public class Prerequisite
 
     public bool CheckSatisfied()
     {
-        return Trackable.GetAccuracy() > RequiredAccuracy && Trackable.GetDuration() > RequiredDuration;
+        return Trackable.GetAccuracy() >= RequiredAccuracy && Trackable.GetDuration() >= RequiredDuration;
     }
     
     public float GetPenalty()

@@ -74,7 +74,7 @@ public class ProximityInteraction : Trackable
             
             foreach (Prerequisite prerequisite in PrerequisiteSteps)
             {
-                if (prerequisite.CheckSatisfied())
+                if (!prerequisite.CheckSatisfied())
                 {
                     score -= prerequisite.GetPenalty();
                 }
