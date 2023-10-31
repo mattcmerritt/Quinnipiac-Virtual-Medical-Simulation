@@ -14,8 +14,15 @@ public class StatisticManager : MonoBehaviour
         public float Accuracy;
     }
 
+    // private struct StatisticKey
+    // {
+    //     public string StatisticName;
+    //     public float Order;
+    // }
+
     public static event Action<Statistic> OnStatisticAdded;
     [SerializeField] private List<Statistic> Statistics;
+    // [SerializeField] private Dictionary<StatisticKey, Statistic> OrderedStatistics;
 
     // Singleton reference
     public static StatisticManager Instance;
@@ -28,6 +35,7 @@ public class StatisticManager : MonoBehaviour
     private void Start()
     {
         Statistics = new List<Statistic>();
+        // OrderedStatistics = new Dictionary<StatisticKey, Statistic>();
     }
 
     public void SaveNewStatistic(Trackable trackable)
@@ -40,7 +48,34 @@ public class StatisticManager : MonoBehaviour
             Accuracy = trackable.GetAccuracy()
         };
 
-        Statistics.Add(newStatistic);
+        // Replacing statistic if it was already present
+        bool replacedInList = false;
+        for (int i = 0; i < Statistics.Count; i++)
+        {
+            if (Statistics[i].TaskName == newStatistic.TaskName)
+            {
+                Statistics[i] = new Statistic
+                {
+                    TaskName = Statistics[i].TaskName,
+                    Duration = newStatistic.Duration,
+                    Order = Statistics[i].Order,
+                    Accuracy = newStatistic.Accuracy
+                };
+                replacedInList = true;
+            }
+        }
+
+        if (!replacedInList)
+        {
+            Statistics.Add(newStatistic);
+        }
+
+        // OrderedStatistics.Add(new StatisticKey
+        // {
+        //     StatisticName = newStatistic.TaskName,
+        //     Order = newStatistic.Order
+        // }, newStatistic);
+
         OnStatisticAdded?.Invoke(newStatistic);
     }
 }

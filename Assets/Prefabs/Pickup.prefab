@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8898253813713583313}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.5, y: 0.56, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
@@ -368,5 +368,6 @@ MonoBehaviour:
   TaskName: Transfer Cube
   Duration: 0
   Accuracy: 0
-  Selected: 0
+  Started: 0
+  TargetName: Socket Interactor (End)
   Target: {fileID: 0}
