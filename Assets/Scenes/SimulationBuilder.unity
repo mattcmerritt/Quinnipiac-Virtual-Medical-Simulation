@@ -626,6 +626,8 @@ MonoBehaviour:
   EventScrollWindow: {fileID: 1705625942}
   ObjectEntryPrefab: {fileID: 5323049398919888686, guid: 0ee6aea61feccfa40bfb4f2c849a40e3, type: 3}
   EventEntryPrefab: {fileID: 6992713578620928902, guid: 864f92299678450488d43b1adb22fb11, type: 3}
+  Map: {fileID: 2104813903}
+  ObjectPrefab: {fileID: 4547019512096475540, guid: 4adfbb87d0d652c4bb3be3a126794a51, type: 3}
 --- !u!1 &94643038
 GameObject:
   m_ObjectHideFlags: 0

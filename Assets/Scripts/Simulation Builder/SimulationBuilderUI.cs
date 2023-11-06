@@ -13,6 +13,10 @@ public class SimulationBuilderUI : MonoBehaviour
     // Prefabs to instantiate entries in the lists
     [SerializeField] private GameObject ObjectEntryPrefab, EventEntryPrefab;
 
+    // Data for the map visualization
+    [SerializeField] private Transform Map;
+    [SerializeField] private GameObject ObjectPrefab;
+
     public void SwitchToObjectsTab()
     {
         ObjectTabButton.interactable = false;
@@ -33,7 +37,13 @@ public class SimulationBuilderUI : MonoBehaviour
 
     public void AddObject()
     {
-        Instantiate(ObjectEntryPrefab, ObjectScrollWindow);
+        GameObject objectEntry = Instantiate(ObjectEntryPrefab, ObjectScrollWindow);
+        GameObject objectVisual = Instantiate(ObjectPrefab, Map);
+
+        ObjectEntry objectEntryScript = objectEntry.GetComponent<ObjectEntry>();
+        RectTransform visualTransform = objectVisual.GetComponent<RectTransform>();
+
+        objectEntryScript.AttachObjectVisual(visualTransform);
     }
 
     public void AddEvent()
