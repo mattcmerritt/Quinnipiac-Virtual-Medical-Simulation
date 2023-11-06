@@ -17,6 +17,14 @@ public class SimulationBuilderUI : MonoBehaviour
     [SerializeField] private Transform Map;
     [SerializeField] private GameObject ObjectPrefab;
 
+    // Added data
+    [SerializeField] private List<ObjectEntry> ObjectEntries;
+
+    private void Start()
+    {
+        ObjectEntries = new List<ObjectEntry>();
+    }
+
     public void SwitchToObjectsTab()
     {
         ObjectTabButton.interactable = false;
@@ -43,7 +51,10 @@ public class SimulationBuilderUI : MonoBehaviour
         ObjectEntry objectEntryScript = objectEntry.GetComponent<ObjectEntry>();
         RectTransform visualTransform = objectVisual.GetComponent<RectTransform>();
 
+        objectEntryScript.SetId(ObjectEntries.Count);
         objectEntryScript.AttachObjectVisual(visualTransform);
+
+        ObjectEntries.Add(objectEntryScript);
     }
 
     public void AddEvent()

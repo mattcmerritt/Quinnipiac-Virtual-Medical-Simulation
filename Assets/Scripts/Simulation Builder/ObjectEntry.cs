@@ -9,8 +9,10 @@ public class ObjectEntry : MonoBehaviour
     // Text elements
     [SerializeField] private TMP_Dropdown ObjectTypeDropdown;
     [SerializeField] private TMP_InputField XInput, YInput;
+    [SerializeField] private TMP_Text IdText;
 
     // Data
+    private int ObjectId;
     private Vector2 Position;
     private string ObjectType;
 
@@ -21,6 +23,17 @@ public class ObjectEntry : MonoBehaviour
     private void Start()
     {
         ObjectType = ObjectTypeDropdown.options[0].text;
+    }
+
+    public void SetId(int id)
+    {
+        ObjectId = id;
+        IdText.text = $"Object ID: {ObjectId}";
+    }
+
+    public int GetId()
+    {
+        return ObjectId;
     }
 
     public void AttachObjectVisual(RectTransform objectVisual)
