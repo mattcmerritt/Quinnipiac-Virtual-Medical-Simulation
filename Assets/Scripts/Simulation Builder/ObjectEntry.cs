@@ -36,6 +36,16 @@ public class ObjectEntry : MonoBehaviour
         return ObjectId;
     }
 
+    public string GetObjectType()
+    {
+        return ObjectType;
+    }
+
+    public Vector2 GetPosition()
+    {
+        return Position;
+    }
+
     public void AttachObjectVisual(RectTransform objectVisual)
     {
         ObjectVisual = objectVisual;

@@ -78,4 +78,46 @@ public class SimulationBuilderUI : MonoBehaviour
 
         InteractionEntries.Add(interactionEntryScript);
     }
+
+    public void GenerateSimulationSceneData()
+    {
+        string result = "{\n\t\"simulationName\": \"Trauma Simulation\",\n\t\"simulationId\": 0,\n\t\"simulationRoomObjects\": [\n";
+        for (int i = 0; i < ObjectEntries.Count; i++)
+        {
+            ObjectEntry objectEntry = ObjectEntries[i];
+            string objectText = "\t\t{\n";
+            objectText += "\t\t\t\"objectId\": " + objectEntry.GetId() + ",\n";
+            objectText += "\t\t\t\"objectType\": \"" + objectEntry.GetObjectType() + "\",\n";
+            objectText += "\t\t\t\"objectPosition\": \"(" + objectEntry.GetPosition().x + ", " + objectEntry.GetPosition().x + ")\"\n";
+            if (i != ObjectEntries.Count - 1)
+            {
+                objectText += "\t\t},\n";
+            }
+            else
+            {
+                objectText += "\t\t}\n";
+            }
+            result += objectText;
+        }
+        result += "\t],\n\t\"simulationRoomEvents\": [\n";
+        for (int i = 0; i < InteractionEntries.Count; i++)
+        {
+            InteractionEntry interactionEntry = InteractionEntries[i];
+            string interactionText = "\t\t{\n";
+            interactionText += "\t\t\t\"objectId\": " + interactionEntry.GetObjectId() + ",\n";
+            interactionText += "\t\t\t\"eventType\": \"" + interactionEntry.GetInteractionType() + "\"\n";
+            if (i != InteractionEntries.Count - 1)
+            {
+                interactionText += "\t\t},\n";
+            }
+            else
+            {
+                interactionText += "\t\t}\n";
+            }
+            result += interactionText;
+        }
+        result += "\t]\n}";
+
+        Debug.Log("<color=white>Room Data:</color>\n" + result);
+    }
 }

@@ -18,6 +18,16 @@ public class InteractionEntry : MonoBehaviour
         InteractionType = InteractionDropdown.options[0].text;
     }
 
+    public string GetObjectId()
+    {
+        return ObjectId;
+    }
+
+    public string GetInteractionType()
+    {
+        return InteractionType;
+    }
+
     public void SetObjectOptions(List<string> objectIds)
     {
         string previousId = ObjectId;
