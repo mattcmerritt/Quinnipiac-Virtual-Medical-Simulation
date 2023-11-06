@@ -47,7 +47,7 @@ public class InteractionEntry : MonoBehaviour
         }
     }
 
-    private void SelectObjectId(int index)
+    public void SelectObjectId(int index)
     {
         ObjectId = ObjectDropdown.options[index].text;
     }
