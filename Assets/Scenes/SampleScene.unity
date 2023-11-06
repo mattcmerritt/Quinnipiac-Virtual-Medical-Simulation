@@ -3368,6 +3368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectToEnable: {fileID: 1050146329}
+  DistanceToDisable: 3
 --- !u!1 &1148539217
 GameObject:
   m_ObjectHideFlags: 0
