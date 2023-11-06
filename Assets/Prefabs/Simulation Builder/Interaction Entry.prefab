@@ -1769,7 +1769,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Interaction
+    - m_Text: Transport Task
+      m_Image: {fileID: 0}
+    - m_Text: Proximity Task
+      m_Image: {fileID: 0}
+    - m_Text: Touch Task
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2216,6 +2220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7756062496602934331}
+  - component: {fileID: 775100965934180634}
   m_Layer: 5
   m_Name: Interaction Entry
   m_TagString: Untagged
@@ -2247,6 +2252,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 275, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &775100965934180634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992713578620928902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90cd04152f54f3f4db2babe2f398f7b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectDropdown: {fileID: 729803950708734934}
+  InteractionDropdown: {fileID: 53585920232706722}
 --- !u!1 &7880515031359382543
 GameObject:
   m_ObjectHideFlags: 0
@@ -2611,7 +2630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Interaction
+  m_text: Transport Task
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

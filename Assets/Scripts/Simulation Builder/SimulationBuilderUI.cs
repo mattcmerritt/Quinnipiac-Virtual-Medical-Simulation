@@ -19,10 +19,14 @@ public class SimulationBuilderUI : MonoBehaviour
 
     // Added data
     [SerializeField] private List<ObjectEntry> ObjectEntries;
+    [SerializeField] private List<string> ObjectIds;
+    [SerializeField] private List<InteractionEntry> InteractionEntries;
 
     private void Start()
     {
         ObjectEntries = new List<ObjectEntry>();
+        ObjectIds = new List<string>();
+        InteractionEntries = new List<InteractionEntry>();
     }
 
     public void SwitchToObjectsTab()
@@ -54,11 +58,24 @@ public class SimulationBuilderUI : MonoBehaviour
         objectEntryScript.SetId(ObjectEntries.Count);
         objectEntryScript.AttachObjectVisual(visualTransform);
 
+        ObjectIds.Add($"{ObjectEntries.Count}");
         ObjectEntries.Add(objectEntryScript);
+
+        // updating all of the options for the interactions
+        foreach (InteractionEntry interaction in InteractionEntries)
+        {
+            interaction.SetObjectOptions(ObjectIds);
+        }
     }
 
     public void AddEvent()
     {
-        Instantiate(EventEntryPrefab, EventScrollWindow);
+        GameObject interactionEntry = Instantiate(EventEntryPrefab, EventScrollWindow);
+
+        InteractionEntry interactionEntryScript = interactionEntry.GetComponent<InteractionEntry>();
+
+        interactionEntryScript.SetObjectOptions(ObjectIds);
+
+        InteractionEntries.Add(interactionEntryScript);
     }
 }
