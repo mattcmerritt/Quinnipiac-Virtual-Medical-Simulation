@@ -88,7 +88,7 @@ public class SimulationBuilderUI : MonoBehaviour
             string objectText = "\t\t{\n";
             objectText += "\t\t\t\"objectId\": " + objectEntry.GetId() + ",\n";
             objectText += "\t\t\t\"objectType\": \"" + objectEntry.GetObjectType() + "\",\n";
-            objectText += "\t\t\t\"objectPosition\": \"(" + objectEntry.GetPosition().x + ", " + objectEntry.GetPosition().x + ")\"\n";
+            objectText += "\t\t\t\"objectPosition\": \"(" + objectEntry.GetPosition().x + ", " + objectEntry.GetPosition().y + ")\"\n";
             if (i != ObjectEntries.Count - 1)
             {
                 objectText += "\t\t},\n";
