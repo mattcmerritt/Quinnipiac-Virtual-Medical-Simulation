@@ -8,6 +8,9 @@ public class SizeFitter : MonoBehaviour
     [SerializeField] private bool ShowDebug = false;
     [SerializeField] private bool UpdateRealtime = false;
 
+    // Dimensions
+    [SerializeField] private bool RescaleHorizontal, RescaleVertical;
+
     private void Start()
     {
         GenerateShape();
@@ -66,7 +69,8 @@ public class SizeFitter : MonoBehaviour
 
         if (ShowDebug) Debug.Log($"Final: min: ({minX}, {minY}), max: ({maxX}, {maxY})");
 
-        GetComponent<RectTransform>().sizeDelta = new Vector2(maxX - minX, maxY - minY);
+        RectTransform parentTransform = GetComponent<RectTransform>();
+        parentTransform.sizeDelta = new Vector2(RescaleHorizontal ? maxX - minX : parentTransform.sizeDelta.x, RescaleVertical ? maxY - minY : parentTransform.sizeDelta.y);
 
         // Centering
         float centerX = (maxX + minX) / 2f;
@@ -77,7 +81,7 @@ public class SizeFitter : MonoBehaviour
         foreach (RectTransform child in children)
         {
             string result = $"{child.name} Old: {child.localPosition}";
-            child.localPosition -= new Vector3(centerX, centerY);
+            child.localPosition -= new Vector3(RescaleHorizontal ? centerX : 0, RescaleVertical ? centerY : 0);
             result += $" New: {child.localPosition}";
             if (ShowDebug) Debug.Log(result);
         }
