@@ -6,8 +6,10 @@ using UnityEngine.UIElements;
 
 public class ContentAdder : MonoBehaviour
 {
+    [SerializeField] private RectTransform AddPrerequisiteButton;
+    [SerializeField] private float PrerequisiteGap = 15;
     [SerializeField] private RectTransform Separator;
-    [SerializeField] private float SeparatorGap = 5;
+    [SerializeField] private float SeparatorGap = 35;
     [SerializeField] private float Lowest;
 
     [SerializeField] private SizeFitter Fitter;
@@ -31,7 +33,7 @@ public class ContentAdder : MonoBehaviour
         Lowest = Fitter.GetLowest();
     }
 
-    public void AddNewElement(string elementKey, float xPosition, string objectName)
+    public GameObject AddNewElement(string elementKey, float xPosition, string objectName)
     {
         UIObjects.TryGetValue(elementKey, out GameObject elementPrefab);
 
@@ -44,12 +46,17 @@ public class ContentAdder : MonoBehaviour
 
         Lowest = Fitter.GetLowest();
 
+        AddPrerequisiteButton.transform.localPosition = new Vector3(AddPrerequisiteButton.transform.localPosition.x, Lowest - PrerequisiteGap);
         Separator.transform.localPosition = new Vector3(Separator.transform.localPosition.x, Lowest - SeparatorGap);
         Fitter.GenerateShape();
+
+        return element;
     }
 
-    public void AddLayerOfElements(List<string> elementKeys, List<float> xPositions, List<string> objectNames)
+    public List<GameObject> AddLayerOfElements(List<string> elementKeys, List<float> xPositions, List<string> objectNames)
     {
+        List<GameObject> items = new List<GameObject>();
+
         for (int i = 0; i < elementKeys.Count;i++)
         {
             UIObjects.TryGetValue(elementKeys[i], out GameObject elementPrefab);
@@ -60,11 +67,16 @@ public class ContentAdder : MonoBehaviour
 
             RectTransform elementTransform = element.GetComponent<RectTransform>();
             elementTransform.localPosition = new Vector3(xPositions[i], Lowest - elementTransform.sizeDelta.y / 2);
+
+            items.Add(element);
         }
 
         Lowest = Fitter.GetLowest();
 
+        AddPrerequisiteButton.transform.localPosition = new Vector3(AddPrerequisiteButton.transform.localPosition.x, Lowest - PrerequisiteGap);
         Separator.transform.localPosition = new Vector3(Separator.transform.localPosition.x, Lowest - SeparatorGap);
         Fitter.GenerateShape();
+
+        return items;
     }
 }

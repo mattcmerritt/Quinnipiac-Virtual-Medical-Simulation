@@ -880,6 +880,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da3a00cd7ef19489ee97e3ee374f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddPrerequisiteButton: {fileID: 0}
+  PrerequisiteGap: 0
   Separator: {fileID: 3688101669528183944}
   SeparatorGap: 5
   Lowest: 0
