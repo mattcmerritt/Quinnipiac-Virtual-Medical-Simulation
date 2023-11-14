@@ -556,6 +556,7 @@ GameObject:
   - component: {fileID: 2343333675726851867}
   - component: {fileID: 2652097809730239794}
   - component: {fileID: 1949855516207010607}
+  - component: {fileID: 263848185152877251}
   m_Layer: 5
   m_Name: Interaction Entry (No Anchors)
   m_TagString: Untagged
@@ -619,6 +620,26 @@ MonoBehaviour:
   UpdateRealtime: 0
   RescaleHorizontal: 0
   RescaleVertical: 1
+--- !u!114 &263848185152877251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573527465364877945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6da3a00cd7ef19489ee97e3ee374f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Separator: {fileID: 203957433985367086}
+  SeparatorGap: 5
+  Lowest: 0
+  Fitter: {fileID: 1949855516207010607}
+  UIObjectKeys:
+  - Text
+  UIObjectGameObject:
+  - {fileID: 1516303775877141697, guid: f72c5c2816fa4ad44bc5740c03e3e6d4, type: 3}
 --- !u!1 &1771587001466059544
 GameObject:
   m_ObjectHideFlags: 0

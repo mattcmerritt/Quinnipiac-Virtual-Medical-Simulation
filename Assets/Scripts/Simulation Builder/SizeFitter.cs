@@ -86,4 +86,32 @@ public class SizeFitter : MonoBehaviour
             if (ShowDebug) Debug.Log(result);
         }
     }
+
+    public float GetLowest()
+    {
+        float lowest = 0;
+
+        RectTransform children = transform.GetComponentInChildren<RectTransform>();
+
+        foreach (RectTransform child in children)
+        {
+            float childMinY = child.localPosition.y - (child.sizeDelta.y / 2);
+
+            // Ignore the separator
+            if (child.name.Contains("Separator"))
+            {
+                continue;
+            }
+
+            if (ShowDebug) Debug.Log($"{child.name}: min: {childMinY}");
+
+            if (childMinY < lowest)
+            {
+                lowest = childMinY;
+                if (ShowDebug) Debug.Log($"Min Y changed to {lowest}");
+            }
+        }
+
+        return lowest;
+    }
 }
