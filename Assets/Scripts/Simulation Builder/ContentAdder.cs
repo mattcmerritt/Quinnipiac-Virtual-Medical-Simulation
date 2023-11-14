@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ContentAdder : MonoBehaviour
 {
@@ -39,6 +41,26 @@ public class ContentAdder : MonoBehaviour
 
         RectTransform elementTransform = element.GetComponent<RectTransform>();
         elementTransform.localPosition = new Vector3(xPosition, Lowest - elementTransform.sizeDelta.y / 2);
+
+        Lowest = Fitter.GetLowest();
+
+        Separator.transform.localPosition = new Vector3(Separator.transform.localPosition.x, Lowest - SeparatorGap);
+        Fitter.GenerateShape();
+    }
+
+    public void AddLayerOfElements(List<string> elementKeys, List<float> xPositions, List<string> objectNames)
+    {
+        for (int i = 0; i < elementKeys.Count;i++)
+        {
+            UIObjects.TryGetValue(elementKeys[i], out GameObject elementPrefab);
+
+            GameObject element = Instantiate(elementPrefab, transform);
+            element.transform.localScale = Vector3.one;
+            element.gameObject.name = objectNames[i];
+
+            RectTransform elementTransform = element.GetComponent<RectTransform>();
+            elementTransform.localPosition = new Vector3(xPositions[i], Lowest - elementTransform.sizeDelta.y / 2);
+        }
 
         Lowest = Fitter.GetLowest();
 

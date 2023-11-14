@@ -638,8 +638,10 @@ MonoBehaviour:
   Fitter: {fileID: 1949855516207010607}
   UIObjectKeys:
   - Text
+  - Dropdown
   UIObjectGameObject:
   - {fileID: 1516303775877141697, guid: f72c5c2816fa4ad44bc5740c03e3e6d4, type: 3}
+  - {fileID: 3008799034537819004, guid: 125496ae360b27e47b23e8627a7e2574, type: 3}
 --- !u!1 &1771587001466059544
 GameObject:
   m_ObjectHideFlags: 0

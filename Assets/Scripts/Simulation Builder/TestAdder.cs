@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class TestAdder : MonoBehaviour
 {
-    [SerializeField] private string GameObjectName, PrefabName;
-    [SerializeField] private float XPosition;
+    [SerializeField] private List<string> GameObjectNames, PrefabNames;
+    [SerializeField] private List<float> XPositions;
 
     [SerializeField] private List<ContentAdder> Adders;
     [SerializeField] private Button Button;
@@ -18,7 +18,7 @@ public class TestAdder : MonoBehaviour
         {
             foreach (ContentAdder adder in Adders)
             {
-                adder.AddNewElement(PrefabName, XPosition, GameObjectName);
+                adder.AddLayerOfElements(PrefabNames, XPositions, GameObjectNames);
             }
         });
     }
