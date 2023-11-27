@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec702541c272eeb47a8ece24c0a4ee47, type: 3}
+  m_Name: ParamedicText
+  m_EditorClassIdentifier: 
+  Text: "The paramedic says:\n\n\u201CWe have a 43 year-old male with no past medical
+    history who was just involved in an altercation at a bar in which he was stabbed
+    multiple times in the chest and abdomen. On our arrival, he was a GCS of 14 with
+    mild confusion, intoxicated and there was a bunch of blood found at the scene.
+    We were only able to get a 20 gauge IV in his left AC started him on fluid for
+    hypotension in the field. We put an occlusive dressing on the left chest wound.
+    He has been able to protect his airway so far so we didn\u2019t intubate him.
+    He got 50 micrograms of fentanyl for pain on the way in. That\u2019s all we got.\u201D\n\n<
+    interact to close menu >"

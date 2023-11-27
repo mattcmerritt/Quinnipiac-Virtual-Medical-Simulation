@@ -25,6 +25,7 @@ public class SimulationBuilderUI : MonoBehaviour
     [SerializeField] private List<ObjectEntry> ObjectEntries;
     [SerializeField] private List<string> ObjectIds;
     [SerializeField] private List<InteractionEntry> InteractionEntries;
+    [SerializeField] private List<string> InteractionIds;
 
     //MongoDB
     //DO NOT LEAVE THIS IN PRODUCTION
@@ -43,6 +44,8 @@ public class SimulationBuilderUI : MonoBehaviour
         var database = client.GetDatabase("simulation");
         sceneCollection = database.GetCollection<Scene>("scene");
         
+        InteractionIds = new List<string>();
+
     }
 
     public void SwitchToObjectsTab()
@@ -82,6 +85,8 @@ public class SimulationBuilderUI : MonoBehaviour
         {
             interaction.SetObjectOptions(ObjectIds);
         }
+
+        UpdateListSizes();
     }
 
     public void AddEvent()
@@ -90,9 +95,33 @@ public class SimulationBuilderUI : MonoBehaviour
 
         InteractionEntry interactionEntryScript = interactionEntry.GetComponent<InteractionEntry>();
 
+        interactionEntryScript.SetId(InteractionEntries.Count);
         interactionEntryScript.SetObjectOptions(ObjectIds);
 
+        InteractionIds.Add($"{InteractionEntries.Count}");
         InteractionEntries.Add(interactionEntryScript);
+
+        // updating the list of interactions for prerequisite selections
+        foreach (InteractionEntry interaction in InteractionEntries)
+        {
+            interaction.SetInteractionOptions(InteractionIds);
+        }
+
+        UpdateListSizes();
+    }
+
+    public void UpdateListSizes()
+    {
+        VerticalLayoutGroup objectGroup = ObjectScrollWindow.GetComponent<VerticalLayoutGroup>();
+        VerticalLayoutGroup interactionGroup = EventScrollWindow.GetComponent<VerticalLayoutGroup>();
+
+        // toggling this reorders the UI
+        objectGroup.childScaleHeight = false;
+        objectGroup.childScaleHeight = true;
+
+        // toggling this reorders the UI
+        interactionGroup.childScaleHeight = false;
+        interactionGroup.childScaleHeight = true;
     }
 
     public void GenerateSimulationSceneData()

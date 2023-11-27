@@ -272,8 +272,8 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!1 &37412759
 GameObject:
@@ -624,13 +624,14 @@ MonoBehaviour:
   EventPanel: {fileID: 506723670}
   ObjectScrollWindow: {fileID: 22981464}
   EventScrollWindow: {fileID: 1705625942}
-  ObjectEntryPrefab: {fileID: 5323049398919888686, guid: 0ee6aea61feccfa40bfb4f2c849a40e3, type: 3}
-  EventEntryPrefab: {fileID: 6992713578620928902, guid: 864f92299678450488d43b1adb22fb11, type: 3}
+  ObjectEntryPrefab: {fileID: 2991444978000076651, guid: 374fe0f7ccd242544b318f42d0e3ffe0, type: 3}
+  EventEntryPrefab: {fileID: 1573527465364877945, guid: 379f5cc3844ee774bb92fa704f94086a, type: 3}
   Map: {fileID: 2104813903}
   ObjectPrefab: {fileID: 4547019512096475540, guid: 4adfbb87d0d652c4bb3be3a126794a51, type: 3}
   ObjectEntries: []
   ObjectIds: []
   InteractionEntries: []
+  InteractionIds: []
 --- !u!1 &94643038
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,7 +1433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 22981464}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
@@ -4572,8 +4573,8 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!1 &1706317257
 GameObject:
@@ -5002,7 +5003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 1705625942}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
