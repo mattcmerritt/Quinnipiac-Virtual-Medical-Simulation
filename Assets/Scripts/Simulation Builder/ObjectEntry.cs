@@ -9,11 +9,13 @@ public class ObjectEntry : MonoBehaviour
     // Text elements
     [SerializeField] private TMP_Dropdown ObjectTypeDropdown;
     [SerializeField] private TMP_InputField XInput, YInput;
+    [SerializeField] private TMP_InputField HeightInput;
     [SerializeField] private TMP_Text IdText;
 
     // Data
     private int ObjectId;
     private Vector2 Position;
+    private float Height;
     private string ObjectType;
 
     // Map visual components
@@ -70,6 +72,16 @@ public class ObjectEntry : MonoBehaviour
             YInput.text = $"{Mathf.Clamp(yValue, -MapHeight / 2, MapHeight / 2)}";
 
             ObjectVisual.anchoredPosition = Position;
+        }
+    }
+
+    public void UpdateHeight(string height)
+    {
+        if (Int32.TryParse(height, out int heightValue))
+        {
+            Height = heightValue;
+
+            // TODO: sort object visuals based on highest to lowest
         }
     }
 
