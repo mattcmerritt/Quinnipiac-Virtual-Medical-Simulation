@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using MongoDB.Driver;
+using MongoDB.Bson;
+using System.Linq;
+using MongoDB.Bson.Serialization.Attributes;
 
 public class SimulationBuilderUI : MonoBehaviour
 {
@@ -23,12 +27,25 @@ public class SimulationBuilderUI : MonoBehaviour
     [SerializeField] private List<InteractionEntry> InteractionEntries;
     [SerializeField] private List<string> InteractionIds;
 
+    //MongoDB
+    //DO NOT LEAVE THIS IN PRODUCTION
+    private string ConnectionString = "mongodb+srv://admin:capybara@cluster0.4pk1iio.mongodb.net/?retryWrites=true&w=majority";
+    private static IMongoCollection<Scene> sceneCollection;
+    
+
     private void Start()
     {
         ObjectEntries = new List<ObjectEntry>();
         ObjectIds = new List<string>();
         InteractionEntries = new List<InteractionEntry>();
+
+        //Create MongoDB client
+        var client = new MongoClient(ConnectionString);
+        var database = client.GetDatabase("simulation");
+        sceneCollection = database.GetCollection<Scene>("scene");
+        
         InteractionIds = new List<string>();
+
     }
 
     public void SwitchToObjectsTab()
@@ -109,43 +126,63 @@ public class SimulationBuilderUI : MonoBehaviour
 
     public void GenerateSimulationSceneData()
     {
-        string result = "{\n\t\"simulationName\": \"Trauma Simulation\",\n\t\"simulationId\": 0,\n\t\"simulationRoomObjects\": [\n";
+        List<ObjectData> oData = new List<ObjectData>();
         for (int i = 0; i < ObjectEntries.Count; i++)
-        {
+        {   
             ObjectEntry objectEntry = ObjectEntries[i];
-            string objectText = "\t\t{\n";
-            objectText += "\t\t\t\"objectId\": " + objectEntry.GetId() + ",\n";
-            objectText += "\t\t\t\"objectType\": \"" + objectEntry.GetObjectType() + "\",\n";
-            objectText += "\t\t\t\"objectPosition\": \"(" + objectEntry.GetPosition().x + ", " + objectEntry.GetPosition().y + ")\"\n";
-            if (i != ObjectEntries.Count - 1)
-            {
-                objectText += "\t\t},\n";
-            }
-            else
-            {
-                objectText += "\t\t}\n";
-            }
-            result += objectText;
+            oData.Add(new ObjectData(objectEntry.GetId(), objectEntry.GetObjectType(), objectEntry.GetPosition().x, objectEntry.GetPosition().y));
         }
-        result += "\t],\n\t\"simulationRoomEvents\": [\n";
+        List<InteractionData> iData = new List<InteractionData>();
         for (int i = 0; i < InteractionEntries.Count; i++)
         {
             InteractionEntry interactionEntry = InteractionEntries[i];
-            string interactionText = "\t\t{\n";
-            interactionText += "\t\t\t\"objectId\": " + interactionEntry.GetObjectId() + ",\n";
-            interactionText += "\t\t\t\"eventType\": \"" + interactionEntry.GetInteractionType() + "\"\n";
-            if (i != InteractionEntries.Count - 1)
-            {
-                interactionText += "\t\t},\n";
-            }
-            else
-            {
-                interactionText += "\t\t}\n";
-            }
-            result += interactionText;
+            iData.Add(new InteractionData(System.Int32.Parse(interactionEntry.GetObjectId()), interactionEntry.GetInteractionType()));
         }
-        result += "\t]\n}";
+        Scene newScene = new()
+        {
+            Name = "Trauma Simulation",
+            Objects = oData,
+            Interactions = iData
+        };
+        sceneCollection.InsertOne(newScene);
+    }
+}
 
-        Debug.Log("<color=white>Room Data:</color>\n" + result);
+public class Scene
+{
+    public ObjectId Id { get; set; }
+    public string Name { get; set; }
+
+    [BsonElement("objects")]
+    public List<ObjectData> Objects { get; set; }
+    [BsonElement("interactions")]
+    public List<InteractionData> Interactions { get; set; }
+
+}
+
+public class ObjectData
+{
+    public int object_id { get; set; }
+    public string type { get; set; }
+    public float x { get; set; }
+    public float y { get; set; }
+    public ObjectData(int id, string type, float x, float y)
+    {
+        this.object_id = id;
+        this.type = type;
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class InteractionData
+{
+    public int object_id { get; set; }
+    public string interaction_type { get; set; }
+
+    public InteractionData(int object_id, string interaction_type)
+    {
+        this.object_id = object_id;
+        this.interaction_type = interaction_type;
     }
 }
