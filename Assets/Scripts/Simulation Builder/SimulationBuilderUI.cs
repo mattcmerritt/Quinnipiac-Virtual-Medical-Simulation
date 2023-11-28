@@ -87,7 +87,20 @@ public class SimulationBuilderUI : MonoBehaviour
             interaction.SetObjectOptions(ObjectIds);
         }
 
+        // Relayering objects around new object
+        ReorderObjectVisualsByHeight();
+
         UpdateListSizes();
+    }
+
+    public void ReorderObjectVisualsByHeight()
+    {
+        // TODO: potentially revisit this to find a better way to compare
+        ObjectEntries.Sort((ObjectEntry entry1, ObjectEntry entry2) => Mathf.RoundToInt((entry1.GetHeight() - entry2.GetHeight()) * 100));
+        foreach (ObjectEntry entry in ObjectEntries)
+        {
+            entry.GetVisualObject().transform.SetAsLastSibling();
+        }
     }
 
     public void AddEvent()

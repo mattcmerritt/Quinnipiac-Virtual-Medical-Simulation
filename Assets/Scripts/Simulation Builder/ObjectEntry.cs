@@ -62,6 +62,11 @@ public class ObjectEntry : MonoBehaviour
         return Height;
     }
 
+    public GameObject GetVisualObject()
+    {
+        return ObjectVisual.gameObject;
+    }
+
     public void AttachObjectVisual(RectTransform objectVisual, Image objectVisualImage)
     {
         ObjectVisual = objectVisual;
@@ -96,7 +101,8 @@ public class ObjectEntry : MonoBehaviour
         {
             Height = heightValue;
 
-            // TODO: sort object visuals based on highest to lowest
+            // re-sort object visuals based on highest to lowest
+            FindObjectOfType<SimulationBuilderUI>().ReorderObjectVisualsByHeight();
         }
     }
 
