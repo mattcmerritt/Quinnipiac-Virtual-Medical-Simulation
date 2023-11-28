@@ -20,11 +20,11 @@ public class StatsUI : MonoBehaviour
         
     }
 
-    private void UpdateUI(StatisticManager.Statistic statistic)
+    private void UpdateUI(Statistic statistic)
     {
-        task.text = "Task: " + statistic.TaskName;
-        duration.text = "Duration: " + statistic.Duration.ToString();
-        accuracy.text = "Accuracy: " + statistic.Accuracy.ToString();
+        task.text = "Task: " + statistic.task_name;
+        duration.text = "Duration: " + statistic.duration.ToString();
+        accuracy.text = "Accuracy: " + statistic.accuracy.ToString();
 
     }
 }

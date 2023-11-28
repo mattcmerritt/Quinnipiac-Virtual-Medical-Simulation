@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class StatisticManager : MonoBehaviour
 {
-    [System.Serializable]
-    public struct Statistic
-    {
-        public string TaskName;
-        public float Duration;
-        public float Order;
-        public float Accuracy;
-    }
+    // [System.Serializable]
+    // public struct Statistic
+    // {
+    //     public string TaskName;
+    //     public float Duration;
+    //     public float Order;
+    //     public float Accuracy;
+    // }
 
     // private struct StatisticKey
     // {
@@ -40,27 +40,15 @@ public class StatisticManager : MonoBehaviour
 
     public void SaveNewStatistic(Trackable trackable)
     {
-        Statistic newStatistic = new Statistic
-        {
-            TaskName = trackable.GetTaskName(),
-            Duration = trackable.GetDuration(),
-            Order = Statistics.Count + 1,
-            Accuracy = trackable.GetAccuracy()
-        };
+        Statistic newStatistic = new Statistic(trackable.GetTaskName(), trackable.GetDuration(), Statistics.Count + 1, trackable.GetAccuracy());
 
         // Replacing statistic if it was already present
         bool replacedInList = false;
         for (int i = 0; i < Statistics.Count; i++)
         {
-            if (Statistics[i].TaskName == newStatistic.TaskName)
+            if (Statistics[i].task_name == newStatistic.task_name)
             {
-                Statistics[i] = new Statistic
-                {
-                    TaskName = Statistics[i].TaskName,
-                    Duration = newStatistic.Duration,
-                    Order = Statistics[i].Order,
-                    Accuracy = newStatistic.Accuracy
-                };
+                Statistics[i] = new Statistic(Statistics[i].task_name, newStatistic.duration, Statistics[i].order, newStatistic.accuracy);
                 replacedInList = true;
             }
         }
@@ -77,5 +65,26 @@ public class StatisticManager : MonoBehaviour
         // }, newStatistic);
 
         OnStatisticAdded?.Invoke(newStatistic);
+    }
+
+    public List<Statistic> GetStatistics()
+    {
+        return Statistics;
+    }
+}
+
+public class Statistic
+{
+    public string task_name { get; set; }
+    public float duration { get; set; }
+    public float order { get; set; }
+    public float accuracy { get; set; }
+
+    public Statistic(string task_name, float duration, float order, float accuracy)
+    {
+        this.task_name = task_name;
+        this.duration = duration;
+        this.order = order;
+        this.accuracy = accuracy;
     }
 }
