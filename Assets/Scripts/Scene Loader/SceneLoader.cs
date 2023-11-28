@@ -7,14 +7,13 @@ using MongoDB.Driver;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine.UI;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 public class SceneLoader : MonoBehaviour
 {
-    [TextArea]
-    private string jsonScene;
-    private GameObject TablePrefabA, TablePrefabB;
-
-    private float MaxPositionDimension = 175, RealMaxPosition;
+    // Room data and basics
+    [SerializeField] private List<GameObject> RoomElementPrefabs;
+    [SerializeField] private float MaxPositionDimension = 175, RealMaxPosition;
 
     // MongoDB (relies on Secrets)
     private string ConnectionString;
@@ -72,6 +71,7 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+    // Query to retrieve all scenes on the database
     public async Task<List<Scene>> GetAllSimulationsAsync()
     {
         var filter = Builders<Scene>.Filter.Empty;
@@ -82,5 +82,35 @@ public class SceneLoader : MonoBehaviour
     {
         // TODO: load objects 
         Debug.Log($"<color=blue>LOADER:</color> Attempting to load scene {s.Name}, has {s.Objects.Count} objects with a total of {s.Interactions.Count} interactions.");
+
+        List<RoomObject> roomObjects = new List<RoomObject>();
+        foreach (ObjectData obj in s.Objects)
+        {
+            // picking the proper prefab
+            GameObject selectedPrefab = RoomElementPrefabs.Find((GameObject prefab) =>
+            {
+                RoomObject roomObject = prefab.GetComponent<RoomObject>();
+                return roomObject.ObjectName == obj.type;
+            });
+
+            // creating the position vector using the positional data and the bounds of the room
+            // TODO: implement in a way that better supports different room shapes and sizes
+            Vector3 position = new Vector3(obj.x / MaxPositionDimension * RealMaxPosition, selectedPrefab.transform.localScale.y / 2f, obj.y / MaxPositionDimension * RealMaxPosition);
+
+            // creating and tagging the object
+            GameObject newRoomElement = Instantiate(selectedPrefab, position, Quaternion.identity);
+            RoomObject roomObjectScript = newRoomElement.GetComponent<RoomObject>();
+            roomObjectScript.ObjectId = obj.object_id;
+
+            roomObjects.Add(roomObjectScript);
+        }
+
+        foreach (InteractionData inter in s.Interactions)
+        {
+            // Finding the associated room object
+
+            // TODO: finish implementing
+            Debug.Log(inter.interaction_type);
+        }
     }
 }
