@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RampingAudioInteractions : Trackable
+public class RampingAudioInteraction : Trackable
 {
     // data points set in builder/scene
     [SerializeField] private float IncreaseTimeInterval;

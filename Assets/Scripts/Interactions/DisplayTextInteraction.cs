@@ -6,14 +6,15 @@ using TMPro;
 
 public class DisplayTextInteraction : Trackable
 {
-    private GameObject Player;
-    [SerializeField] private static Canvas DisplayTextCanvas;
-    [SerializeField] private TMP_Text TextBox;
+    // data points set in builder/scene
     [SerializeField] private DisplayText TextToDisplay;
     [SerializeField] private bool InitiallyActive;
-
-    // Steps attached to this event as prerequesite missions
     [SerializeField] private List<Prerequisite> PrerequisiteSteps;
+
+    // internals for use during runtime
+    private GameObject Player;
+    private static Canvas DisplayTextCanvas;
+    private TMP_Text TextBox;
 
     protected new void Start()
     {
