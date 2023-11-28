@@ -7847,8 +7847,12 @@ MonoBehaviour:
   Duration: 0
   Accuracy: 0
   Started: 0
+  IncreaseTimeInterval: 5
+  VolumeIncreaseInterval: 0.1
   AcceptableVolumeThreshold: 0.7
-  TimeAboveThreshold: 0
+  Loop: 1
+  InitialVolume: 0.2
+  AudioDetails: {fileID: 11400000, guid: 3ebaf5ffa2324ca49b7032680cdb5f2d, type: 2}
 --- !u!82 &1942728861
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7856,7 +7860,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942728859}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5231a3caaecb41e4c90d450bcfd3faaa, type: 3}

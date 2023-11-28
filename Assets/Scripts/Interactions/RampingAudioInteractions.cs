@@ -6,13 +6,19 @@ using UnityEngine;
 // TODO: need to add Deactivate and CompleteStatistic calls
 public class RampingAudioInteractions : Trackable
 {
+    // data points set in builder/scene
+    [SerializeField] private float IncreaseTimeInterval;
+    [SerializeField] private float VolumeIncreaseInterval;
+    [SerializeField] private float AcceptableVolumeThreshold;
+    [SerializeField] private bool Loop;
+    [SerializeField] private float InitialVolume;
+    [SerializeField] private AudioSourceDetails AudioDetails;
+
+    // internals for use during runtime
     private AudioSource Noise;
-    private float IncreaseTimeInterval = 3f;
     private float RemainingTimeInInterval;
-    private float VolumeIncreaseInterval = 0.1f;
     private bool Muted;
-    [SerializeField] private float AcceptableVolumeThreshold = 0.7f;
-    [SerializeField] private float TimeAboveThreshold;
+    private float TimeAboveThreshold;
     
     private void OnEnable()
     {
@@ -30,7 +36,12 @@ public class RampingAudioInteractions : Trackable
         Activate();
         TimeAboveThreshold = 0;
 
-        Noise = GetComponent<AudioSource>();
+        Noise = gameObject.AddComponent<AudioSource>();
+        Noise.clip = AudioDetails.audio_clip;
+        Noise.loop = Loop;
+        Noise.volume = InitialVolume;
+
+        // Noise = GetComponent<AudioSource>();
         Muted = false;
     }
 
