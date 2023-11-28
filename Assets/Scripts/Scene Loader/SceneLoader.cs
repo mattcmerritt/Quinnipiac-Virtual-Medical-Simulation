@@ -80,7 +80,6 @@ public class SceneLoader : MonoBehaviour
 
     public void SelectScene(Scene s)
     {
-        // TODO: load objects 
         Debug.Log($"<color=blue>LOADER:</color> Attempting to load scene {s.Name}, has {s.Objects.Count} objects with a total of {s.Interactions.Count} interactions.");
 
         List<RoomObject> roomObjects = new List<RoomObject>();
@@ -105,12 +104,66 @@ public class SceneLoader : MonoBehaviour
             roomObjects.Add(roomObjectScript);
         }
 
+        // adding the interactions to objects
+        List<Trackable> interactions = new List<Trackable>();
         foreach (InteractionData inter in s.Interactions)
         {
             // Finding the associated room object
+            RoomObject desiredRoomObject = roomObjects.Find((RoomObject ro) =>
+            {
+                return ro.ObjectId == inter.object_id;
+            });
+            GameObject roomObject = desiredRoomObject.gameObject;
 
-            // TODO: finish implementing
-            Debug.Log(inter.interaction_type);
+            // TODO: finish implementing / find new way to do this
+            // TODO: need to add some way to track interaction id (NOT CURRENTLY IN THE BSON)
+            if (inter.interaction_type == "Proximity Task")
+            {
+                ProximityInteraction proxInter = roomObject.AddComponent<ProximityInteraction>();
+                proxInter.SetDurationAccuracy(inter.duration_required, inter.accuracy_penalty);
+                interactions.Add(proxInter);
+            }
+            else if (inter.interaction_type == "Touch Task")
+            {
+                ClickInteraction clickInter = roomObject.AddComponent<ClickInteraction>();
+                interactions.Add(clickInter);
+            }
+            else if (inter.interaction_type == "Transport Task")
+            {
+                Debug.Log("<color=red>LOADER:</color> The transport task is not currently supported in the simulation loader!");
+            }
+        }
+
+        // listing the prerequisites for each interaction
+        foreach (InteractionData inter in s.Interactions)
+        {
+            // Finding the associated room object
+            RoomObject desiredRoomObject = roomObjects.Find((RoomObject ro) =>
+            {
+                return ro.ObjectId == inter.object_id;
+            });
+            GameObject roomObject = desiredRoomObject.gameObject;
+
+            // Finding the interactions listed as prereqs
+            foreach (Trackable t in interactions)
+            {
+                // TODO: match prereq ids to trackables and build a list
+            }
+
+            // TODO: revisit when prerequisites (hopefully with polymorphism at the trackable level)
+            if (inter.interaction_type == "Proximity Task")
+            {
+                ProximityInteraction proxInter = roomObject.GetComponent<ProximityInteraction>();
+                Debug.Log("<color=red>LOADER:</color> The proximity task is not currently supported for prerequisites in the simulation loader!");
+            }
+            else if (inter.interaction_type == "Touch Task")
+            {
+                Debug.Log("<color=red>LOADER:</color> The touch task is not currently supported for prerequisites in the simulation loader!");
+            }
+            else if (inter.interaction_type == "Transport Task")
+            {
+                Debug.Log("<color=red>LOADER:</color> The transport task is not currently supported for prerequisites the simulation loader!");
+            }
         }
     }
 }

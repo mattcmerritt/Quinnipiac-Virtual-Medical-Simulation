@@ -15,6 +15,9 @@ public abstract class Trackable : MonoBehaviour
 
     private static event Action<Trackable> OnStatisticCompleted;
 
+    // Data for identifying this interaction
+    [SerializeField] private int InteractionId;
+
     protected void Start()
     {
         OnStatisticCompleted += StatisticManager.Instance.SaveNewStatistic;
@@ -63,5 +66,15 @@ public abstract class Trackable : MonoBehaviour
     public void CompleteStatistic()
     {
         OnStatisticCompleted?.Invoke(this);
+    }
+
+    public void SetInteractionId(int interactionId)
+    {
+        InteractionId = interactionId;
+    }
+
+    public int GetInteractionId()
+    {
+        return InteractionId;
     }
 }

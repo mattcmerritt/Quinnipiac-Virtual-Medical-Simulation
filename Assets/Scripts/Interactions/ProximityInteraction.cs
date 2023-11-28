@@ -84,4 +84,10 @@ public class ProximityInteraction : Trackable
             CompleteStatistic();
         }
     }
+
+    public void SetDurationAccuracy(float duration, float accuracy)
+    {
+        RequiredDuration = duration;
+        FailurePenalty = accuracy;
+    }
 }
