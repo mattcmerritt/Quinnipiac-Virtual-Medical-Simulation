@@ -21,6 +21,11 @@ public class ExitDoor : MonoBehaviour
         OnExit += PushAllStatisticsAtEnd;
     }
 
+    private void OnDisable()
+    {
+        OnExit -= PushAllStatisticsAtEnd;
+    }
+
     public void ExitScene()
     {
         OnExit?.Invoke();
