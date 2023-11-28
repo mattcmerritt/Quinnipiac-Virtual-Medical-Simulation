@@ -8,7 +8,7 @@ public class DisplayTextInteraction : Trackable
 {
     // data points set in builder/scene
     [SerializeField] private DisplayText TextToDisplay;
-    [SerializeField] private bool InitiallyActive;
+    [SerializeField] private bool IsTaskInitiallyActive;
     [SerializeField] private List<Prerequisite> PrerequisiteSteps;
 
     // internals for use during runtime
@@ -21,7 +21,7 @@ public class DisplayTextInteraction : Trackable
         base.Start();
 
         // if it is initially active, or if there are zero prerequisites, set the interaction as active so timer starts
-        if (InitiallyActive || PrerequisiteSteps.Count < 1)
+        if (IsTaskInitiallyActive || PrerequisiteSteps.Count < 1)
         {
             Activate();
         }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class RampingAudioInteraction : Trackable
 {
     // data points set in builder/scene
-    [SerializeField] private float IncreaseTimeInterval;
-    [SerializeField] private float VolumeIncreaseInterval;
+    [SerializeField] private float VolumeIncreaseTimeInterval;
+    [SerializeField] private float VolumeIncreaseMagnitude;
     [SerializeField] private float AcceptableVolumeThreshold;
     [SerializeField] private bool Loop;
     [SerializeField] private float InitialVolume;
@@ -51,8 +51,8 @@ public class RampingAudioInteraction : Trackable
             RemainingTimeInInterval -= Time.deltaTime;
             if(RemainingTimeInInterval <= 0f)
             {
-                Noise.volume += VolumeIncreaseInterval;
-                RemainingTimeInInterval = IncreaseTimeInterval;
+                Noise.volume += VolumeIncreaseMagnitude;
+                RemainingTimeInInterval = VolumeIncreaseTimeInterval;
             }
 
             if(Noise.volume > AcceptableVolumeThreshold)
