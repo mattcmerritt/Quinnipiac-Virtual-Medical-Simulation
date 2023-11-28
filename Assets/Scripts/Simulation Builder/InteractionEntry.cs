@@ -166,6 +166,58 @@ public class InteractionEntry : MonoBehaviour
                 // final resizing and scaling elements to fit
                 simBuilder.UpdateListSizes();
             }
+            else if (InteractionType == "Ramping Audio Task" && !HasAccuracyRequirements)
+            {
+                // Mark that the new fields have been added
+                // HasAccuracyRequirements = true;
+
+                // Data to load in the new fields
+                List<string> namesRow1 = new List<string> { "Time Interval Label", "Time Interval Input" };
+                List<string> namesRow2 = new List<string> { "Magnitude Increase Label", "Magnitude Increase Input" };
+                List<string> prefabsRow1 = new List<string> { "Text", "Decimal Input" };
+                List<string> prefabsRow2 = new List<string> { "Text", "Decimal Input" };
+                List<float> positions = new List<float> { -60, 0 };
+
+                // TODO: implement this new interactions
+                // TO COMPLETE THIS WE WILL NEED TO ADD A BUNCH OF NEW UI ELEMENTS INCLUDING SUPPORT OF
+                //  BOOLEANS
+                //  SCRIPTABLE OBJECTS / OTHER ASSETS
+
+                /*
+                // adding and setting up listeners for the duration input
+                List<GameObject> row1Items = ContentAdder.AddLayerOfElements(prefabsRow1, positions, namesRow1);
+                row1Items[0].GetComponent<TMP_Text>().text = "Duration:";
+                AccuracyFields.Add(row1Items[1].GetComponent<TMP_InputField>());
+
+                // adding the listener to the new duration text field to track the value input in this class
+                row1Items[1].GetComponent<TMP_InputField>().onValueChanged.AddListener((string duration) => {
+                    if (Int32.TryParse(duration, out int durationValue))
+                    {
+                        DurationRequired = durationValue;
+                    }
+                });
+
+                // resizing and scaling elements to fit
+                SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
+                simBuilder.UpdateListSizes();
+
+                // adding and setting up listeners for the accuracy penalty input
+                List<GameObject> row2Items = ContentAdder.AddLayerOfElements(prefabsRow2, positions, namesRow2);
+                row2Items[0].GetComponent<TMP_Text>().text = "Accuracy:";
+                AccuracyFields.Add(row2Items[1].GetComponent<TMP_InputField>());
+
+                // adding the listener to the new accuracy text field to track the value input in this class
+                row2Items[1].GetComponent<TMP_InputField>().onValueChanged.AddListener((string accuracy) => {
+                    if (float.TryParse(accuracy, out float accuracyValue))
+                    {
+                        AccuracyPenalty = accuracyValue;
+                    }
+                });
+
+                // final resizing and scaling elements to fit
+                simBuilder.UpdateListSizes();
+                */
+            }
         }
     }
 
