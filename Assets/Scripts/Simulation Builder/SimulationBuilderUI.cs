@@ -73,7 +73,10 @@ public class SimulationBuilderUI : MonoBehaviour
 
         ObjectEntry objectEntryScript = objectEntry.GetComponent<ObjectEntry>();
         RectTransform visualTransform = objectVisual.GetComponent<RectTransform>();
+        DraggableObjectVisual draggableVisual = objectVisual.GetComponent<DraggableObjectVisual>();
         Image visualImage = objectVisual.GetComponent<Image>();
+
+        draggableVisual.SetLinkedObjectEntry(objectEntryScript);
 
         objectEntryScript.SetId(ObjectEntries.Count);
         objectEntryScript.AttachObjectVisual(visualTransform, visualImage);
