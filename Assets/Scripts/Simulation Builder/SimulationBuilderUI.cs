@@ -26,6 +26,7 @@ public class SimulationBuilderUI : MonoBehaviour
     [SerializeField] private List<string> ObjectIds;
     [SerializeField] private List<InteractionEntry> InteractionEntries;
     [SerializeField] private List<string> InteractionIds;
+    [SerializeField] private string SimulationName;
 
     //MongoDB
     //DO NOT LEAVE THIS IN PRODUCTION
@@ -124,6 +125,11 @@ public class SimulationBuilderUI : MonoBehaviour
         interactionGroup.childScaleHeight = true;
     }
 
+    public void ChangeSimulationName(string newName)
+    {
+        SimulationName = newName;
+    }
+
     public void GenerateSimulationSceneData()
     {
         List<ObjectData> oData = new List<ObjectData>();
@@ -140,7 +146,7 @@ public class SimulationBuilderUI : MonoBehaviour
         }
         Scene newScene = new()
         {
-            Name = "Trauma Simulation",
+            Name = SimulationName,
             Objects = oData,
             Interactions = iData
         };
