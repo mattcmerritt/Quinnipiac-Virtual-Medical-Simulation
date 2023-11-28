@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class DisplayText : ScriptableObject
+public class AudioSourceDetails : ScriptableObject
 {
-    [TextArea(5, 10)]
-    public string text;
+    public AudioClip audio_clip;
 }
+

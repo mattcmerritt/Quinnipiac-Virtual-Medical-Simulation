@@ -56,7 +56,7 @@ public class DisplayTextInteraction : Trackable
 
     public void DisplayText() 
     {
-        TextBox.text = TextToDisplay.Text;
+        TextBox.text = TextToDisplay.text;
         DisplayTextCanvas.enabled = true;
         Deactivate(1); // TODO: make some sort of time-based calculation rather than 1
         CompleteStatistic();
