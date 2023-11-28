@@ -6,6 +6,7 @@ using System.Text.Json;
 using MongoDB.Driver;
 using System.Threading.Tasks;
 using TMPro;
+using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -21,16 +22,18 @@ public class SceneLoader : MonoBehaviour
 
     // Scene data from database
     private List<Scene> Scenes;
-    private List<string> SceneNames;
 
-    [SerializeField] private TMP_Dropdown SceneSelector;
+    // UI for selecting scene
+    [SerializeField] private Transform ContentWindow;
+    [SerializeField] private GameObject SceneButtonPrefab;
+    [SerializeField] private GameObject LoadingUI;
 
     // The database connection must be created immediately
     private void Awake()
     {
         // TODO: diagnose issue that is preventing secrets from being found unless selected in editor
         Secret[] secrets = Resources.FindObjectsOfTypeAll<Secret>();
-        Debug.Log(secrets.Length);
+        // Debug.Log(secrets.Length);
         Secret secret = Array.Find<Secret>(secrets, (Secret s) => s.name == "DatabaseConnection");
         ConnectionString = secret.Content;
 
@@ -44,7 +47,6 @@ public class SceneLoader : MonoBehaviour
     {
         // Create scene collection
         Scenes = new List<Scene>();
-        SceneNames = new List<string>();
         List<Scene> scenesFromDatabase = await GetAllSimulationsAsync();
 
         // Some garbage collection to remove scenes with no name from dropdown
@@ -52,17 +54,22 @@ public class SceneLoader : MonoBehaviour
         {
             if (!string.IsNullOrWhiteSpace(s.Name))
             {
-                Debug.Log(s.Name);
+                // Debug.Log(s.Name);
                 Scenes.Add(s);
-                SceneNames.Add(s.Name);
             }
         }
 
-        // Feeding the names back to the dropdown
-        SceneSelector.ClearOptions();
-        SceneSelector.AddOptions(SceneNames);
-        // attach listener
-        SceneSelector.onValueChanged.AddListener(SelectSceneFromDropdown);
+        // creating the buttons in the UI
+        foreach (Scene s in Scenes)
+        {
+            GameObject newButtonObject = Instantiate(SceneButtonPrefab, ContentWindow);
+            newButtonObject.GetComponent<Button>().onClick.AddListener(() => 
+            {
+                SelectScene(s);
+                LoadingUI.SetActive(false);
+            });
+            newButtonObject.GetComponentInChildren<TMP_Text>().text = s.Name;
+        }
     }
 
     public async Task<List<Scene>> GetAllSimulationsAsync()
@@ -71,10 +78,9 @@ public class SceneLoader : MonoBehaviour
         return await sceneCollection.Find(filter).ToListAsync();
     }
 
-    public void SelectSceneFromDropdown(int index)
+    public void SelectScene(Scene s)
     {
-        Scene selectedScene = Scenes[index];
-        // TODO: load objects
-        Debug.Log($"<color=blue>LOADER:</color> Attempting to load scene {selectedScene.Name}, has {selectedScene.Objects.Count} objects with a total of {selectedScene.Interactions.Count} interactions.");
+        // TODO: load objects 
+        Debug.Log($"<color=blue>LOADER:</color> Attempting to load scene {s.Name}, has {s.Objects.Count} objects with a total of {s.Interactions.Count} interactions.");
     }
 }
