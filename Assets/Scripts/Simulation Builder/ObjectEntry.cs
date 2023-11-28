@@ -95,6 +95,16 @@ public class ObjectEntry : MonoBehaviour
         }
     }
 
+    public void UpdateXYPosition(int x, int y)
+    {
+        Position.x = Mathf.Clamp(x, -MapWidth / 2, MapWidth / 2);
+        XInput.text = $"{Mathf.Clamp(x, -MapWidth / 2, MapWidth / 2)}";
+        Position.y = Mathf.Clamp(y, -MapHeight / 2, MapHeight / 2);
+        YInput.text = $"{Mathf.Clamp(y, -MapHeight / 2, MapHeight / 2)}";
+
+        ObjectVisual.anchoredPosition = Position;
+    }
+
     public void UpdateHeight(string height)
     {
         if (Int32.TryParse(height, out int heightValue))
