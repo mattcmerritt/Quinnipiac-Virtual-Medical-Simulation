@@ -73,6 +73,7 @@ public class StatisticManager : MonoBehaviour
     }
 }
 
+[System.Serializable]
 public class Statistic
 {
     public string task_name { get; set; }
