@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Linq;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Threading.Tasks;
 
 public class SimulationBuilderUI : MonoBehaviour
 {
@@ -151,6 +152,11 @@ public class SimulationBuilderUI : MonoBehaviour
             Interactions = iData
         };
         sceneCollection.InsertOne(newScene);
+    }
+    public async Task<List<Scene>> GetAllSimulationsAsync()
+    {
+        var filter = Builders<Scene>.Filter.Empty;
+        return await sceneCollection.Find(filter).ToListAsync();
     }
 }
 
