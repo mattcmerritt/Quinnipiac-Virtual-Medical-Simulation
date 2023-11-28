@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Linq;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Threading.Tasks;
 
 public class SimulationBuilderUI : MonoBehaviour
 {
@@ -136,13 +137,13 @@ public class SimulationBuilderUI : MonoBehaviour
         for (int i = 0; i < ObjectEntries.Count; i++)
         {   
             ObjectEntry objectEntry = ObjectEntries[i];
-            oData.Add(new ObjectData(objectEntry.GetId(), objectEntry.GetObjectType(), objectEntry.GetPosition().x, objectEntry.GetPosition().y));
+            oData.Add(new ObjectData(objectEntry.GetId(), objectEntry.GetObjectType(), objectEntry.GetPosition().x, objectEntry.GetPosition().y, objectEntry.GetHeight()));
         }
         List<InteractionData> iData = new List<InteractionData>();
         for (int i = 0; i < InteractionEntries.Count; i++)
         {
             InteractionEntry interactionEntry = InteractionEntries[i];
-            iData.Add(new InteractionData(System.Int32.Parse(interactionEntry.GetObjectId()), interactionEntry.GetInteractionType()));
+            iData.Add(new InteractionData(System.Int32.Parse(interactionEntry.GetObjectId()), interactionEntry.GetInteractionType(), interactionEntry.GetPrerequisiteList(), interactionEntry.GetAccuracyPenalty(), interactionEntry.GetDuration()));
         }
         Scene newScene = new()
         {
@@ -151,6 +152,11 @@ public class SimulationBuilderUI : MonoBehaviour
             Interactions = iData
         };
         sceneCollection.InsertOne(newScene);
+    }
+    public async Task<List<Scene>> GetAllSimulationsAsync()
+    {
+        var filter = Builders<Scene>.Filter.Empty;
+        return await sceneCollection.Find(filter).ToListAsync();
     }
 }
 
@@ -172,12 +178,15 @@ public class ObjectData
     public string type { get; set; }
     public float x { get; set; }
     public float y { get; set; }
-    public ObjectData(int id, string type, float x, float y)
+
+    public float height {  get; set; }
+    public ObjectData(int id, string type, float x, float y, float height)
     {
         this.object_id = id;
         this.type = type;
         this.x = x;
         this.y = y;
+        this.height = height;
     }
 }
 
@@ -186,9 +195,19 @@ public class InteractionData
     public int object_id { get; set; }
     public string interaction_type { get; set; }
 
-    public InteractionData(int object_id, string interaction_type)
+    [BsonElement("prerequisites")]
+    public List<int> prereqlist { get; set; }
+
+    public float accuracy_penalty { get; set; }
+
+    public float duration_required { get; set; }
+
+    public InteractionData(int object_id, string interaction_type, List<int> prereqlist, float accuracy_penalty, float duration_required)
     {
         this.object_id = object_id;
         this.interaction_type = interaction_type;
+        this.prereqlist = prereqlist;
+        this.accuracy_penalty = accuracy_penalty;
+        this.duration_required = duration_required;
     }
 }
