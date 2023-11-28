@@ -14,6 +14,16 @@ public class RampingAudioInteractions : Trackable
     [SerializeField] private float AcceptableVolumeThreshold = 0.7f;
     [SerializeField] private float TimeAboveThreshold;
     
+    private void OnEnable()
+    {
+        ExitDoor.OnExit += FinalizeStatistics;
+    }
+    
+    private void OnDisable()
+    {
+        ExitDoor.OnExit -= FinalizeStatistics;
+    }
+
     protected new void Start()
     {
         base.Start();
@@ -53,5 +63,14 @@ public class RampingAudioInteractions : Trackable
     {
         Muted = !Muted;
         Noise.volume = 0f;
+    }
+
+    public void FinalizeStatistics()
+    {
+        float PercentTimeBelowThreshold = (Duration - TimeAboveThreshold) / Duration;
+        Deactivate(PercentTimeBelowThreshold);
+        CompleteStatistic();
+
+        Debug.Log("Volume Accuracy: " + Accuracy); // TODO: remove later
     }
 }
