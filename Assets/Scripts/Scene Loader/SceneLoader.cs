@@ -109,6 +109,7 @@ public class SceneLoader : MonoBehaviour
         foreach (InteractionData inter in s.Interactions)
         {
             // Finding the associated room object
+            // TODO: for some reason, all object ids here are 0
             RoomObject desiredRoomObject = roomObjects.Find((RoomObject ro) =>
             {
                 return ro.ObjectId == inter.object_id;
@@ -137,6 +138,9 @@ public class SceneLoader : MonoBehaviour
         // listing the prerequisites for each interaction
         foreach (InteractionData inter in s.Interactions)
         {
+            // DEBUG
+            Debug.Log($"{inter.interaction_type}: on {inter.object_id}");
+
             // Finding the associated room object
             RoomObject desiredRoomObject = roomObjects.Find((RoomObject ro) =>
             {
