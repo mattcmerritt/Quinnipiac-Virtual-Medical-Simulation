@@ -13,6 +13,9 @@ public class InteractionEntry : MonoBehaviour
     [SerializeField] private string ObjectId;
     [SerializeField] private string InteractionType;
 
+    [SerializeField] private bool HasAccuracyRequirements;
+    [SerializeField] private float AccuracyPenalty, DurationRequired;
+
     [SerializeField] private List<TMP_Dropdown> PrerequisiteDropdowns;
     [SerializeField] private List<TMP_InputField> AccuracyFields;
 
@@ -102,26 +105,49 @@ public class InteractionEntry : MonoBehaviour
         else
         {
             // TODO: put this in a function or a separate adder, but not here
-            if (InteractionType == "Proximity Task")
+            if (InteractionType == "Proximity Task" && !HasAccuracyRequirements)
             {
+                // Mark that the new fields have been added
+                HasAccuracyRequirements = true;
+
+                // Data to load in the new fields
                 List<string> namesRow1 = new List<string> { "Duration Label", "Duration Input" };
                 List<string> namesRow2 = new List<string> { "Accuracy Label", "Accuracy Input" };
                 List<string> prefabsRow1 = new List<string> { "Text", "Integer Input" };
                 List<string> prefabsRow2 = new List<string> { "Text", "Decimal Input" };
                 List<float> positions = new List<float> { -60, 0 };
 
+                // adding and setting up listeners for the duration input
                 List<GameObject> row1Items = ContentAdder.AddLayerOfElements(prefabsRow1, positions, namesRow1);
-
                 row1Items[0].GetComponent<TMP_Text>().text = "Duration:";
                 AccuracyFields.Add(row1Items[1].GetComponent<TMP_InputField>());
 
+                // adding the listener to the new duration text field to track the value input in this class
+                row1Items[1].GetComponent<TMP_InputField>().onValueChanged.AddListener((string duration) => {
+                    if (Int32.TryParse(duration, out int durationValue))
+                    {
+                        DurationRequired = durationValue;
+                    }
+                });
+
+                // resizing and scaling elements to fit
                 SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
                 simBuilder.UpdateListSizes();
 
+                // adding and setting up listeners for the accuracy penalty input
                 List<GameObject> row2Items = ContentAdder.AddLayerOfElements(prefabsRow2, positions, namesRow2);
                 row2Items[0].GetComponent<TMP_Text>().text = "Accuracy:";
                 AccuracyFields.Add(row2Items[1].GetComponent<TMP_InputField>());
 
+                // adding the listener to the new accuracy text field to track the value input in this class
+                row2Items[1].GetComponent<TMP_InputField>().onValueChanged.AddListener((string accuracy) => {
+                    if (float.TryParse(accuracy, out float accuracyValue))
+                    {
+                        AccuracyPenalty = accuracyValue;
+                    }
+                });
+
+                // final resizing and scaling elements to fit
                 simBuilder.UpdateListSizes();
             }
         }
