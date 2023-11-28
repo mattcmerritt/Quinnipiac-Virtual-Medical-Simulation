@@ -15,6 +15,7 @@ public class InteractionEntry : MonoBehaviour
 
     [SerializeField] private bool HasAccuracyRequirements;
     [SerializeField] private float AccuracyPenalty, DurationRequired;
+    [SerializeField] private List<int> PrerequisiteList;
 
     [SerializeField] private List<TMP_Dropdown> PrerequisiteDropdowns;
     [SerializeField] private List<TMP_InputField> AccuracyFields;
@@ -178,6 +179,18 @@ public class InteractionEntry : MonoBehaviour
         }
     }
 
+    public void UpdatePrerequisiteList()
+    {
+        // regenerating the entire list of prerequisite ids
+        List<int> newPrerequisiteList = new List<int>();
+        foreach (TMP_Dropdown d in PrerequisiteDropdowns)
+        {
+            Int32.TryParse(d.options[d.value].text, out int prereqNumber);
+            newPrerequisiteList.Add(prereqNumber);
+        }
+        PrerequisiteList = newPrerequisiteList;
+    }
+
     public void AddPrerequisite(TMP_Dropdown dropdown)
     {
         if (SavedInteractionIds != null)
@@ -186,6 +199,11 @@ public class InteractionEntry : MonoBehaviour
             dropdown.AddOptions(SavedInteractionIds);
         }
         PrerequisiteDropdowns.Add(dropdown);
+
+        // adding a listener to the dropdown
+        dropdown.onValueChanged.AddListener((int index) => UpdatePrerequisiteList());
+        // updating the list of prerequisites to include this new one
+        UpdatePrerequisiteList();
 
         SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
         simBuilder.UpdateListSizes();
