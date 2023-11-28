@@ -65,6 +65,21 @@ public class InteractionEntry : MonoBehaviour
         return InteractionType;
     }
 
+    public List<int> GetPrerequisiteList()
+    {
+        return PrerequisiteList;
+    }
+
+    public float GetAccuracyPenalty()
+    {
+        return AccuracyPenalty;
+    }
+
+    public float GetDuration()
+    {
+        return DurationRequired;
+    }
+
     public void SetObjectOptions(List<string> objectIds)
     {
         string previousId = ObjectId;

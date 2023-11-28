@@ -47,6 +47,11 @@ public class ObjectEntry : MonoBehaviour
     {
         return Position;
     }
+    
+    public float GetHeight()
+    {
+        return Height;
+    }
 
     public void AttachObjectVisual(RectTransform objectVisual)
     {
