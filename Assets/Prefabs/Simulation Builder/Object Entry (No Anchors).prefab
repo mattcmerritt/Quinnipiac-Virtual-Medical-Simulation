@@ -1144,6 +1144,10 @@ MonoBehaviour:
   MapWidth: 350
   MapHeight: 350
   ObjectVisual: {fileID: 0}
+  ObjectVisualImage: {fileID: 0}
+  ObjectColors:
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &6727599622472867229
 MonoBehaviour:
   m_ObjectHideFlags: 0

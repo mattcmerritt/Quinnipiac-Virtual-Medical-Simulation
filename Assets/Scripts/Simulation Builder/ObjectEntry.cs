@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class ObjectEntry : MonoBehaviour
@@ -21,6 +22,14 @@ public class ObjectEntry : MonoBehaviour
     // Map visual components
     [SerializeField] private float MapWidth = 350, MapHeight = 350;
     [SerializeField] private RectTransform ObjectVisual;
+    [SerializeField] private Image ObjectVisualImage;
+
+    // Object type data, parallel to the dropdown options
+    // For now, Object A is blue and Object B is red
+    // TODO: find a better way to store this or load this
+    // [SerializeField] private List<Sprite> ObjectSprites;
+    // TODO: switch to using sprites instead of colors
+    [SerializeField] private List<Color> ObjectColors;
 
     private void Start()
     {
@@ -53,9 +62,10 @@ public class ObjectEntry : MonoBehaviour
         return Height;
     }
 
-    public void AttachObjectVisual(RectTransform objectVisual)
+    public void AttachObjectVisual(RectTransform objectVisual, Image objectVisualImage)
     {
         ObjectVisual = objectVisual;
+        ObjectVisualImage = objectVisualImage;
     }
 
     public void UpdateXPosition(string x)
@@ -93,5 +103,8 @@ public class ObjectEntry : MonoBehaviour
     public void UpdateObjectType(int index)
     {
         ObjectType = ObjectTypeDropdown.options[index].text;
+        // TODO: switch to using sprites instead of colors when graphics are ready
+        // ObjectVisualImage.sprite = ObjectSprites[index];
+        ObjectVisualImage.color = ObjectColors[index];
     }
 }
