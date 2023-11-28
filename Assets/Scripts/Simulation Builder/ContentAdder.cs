@@ -35,6 +35,8 @@ public class ContentAdder : MonoBehaviour
 
     public GameObject AddNewElement(string elementKey, float xPosition, string objectName)
     {
+        Lowest = Fitter.GetLowest();
+
         UIObjects.TryGetValue(elementKey, out GameObject elementPrefab);
 
         GameObject element = Instantiate(elementPrefab, transform);
@@ -56,6 +58,8 @@ public class ContentAdder : MonoBehaviour
     public List<GameObject> AddLayerOfElements(List<string> elementKeys, List<float> xPositions, List<string> objectNames)
     {
         List<GameObject> items = new List<GameObject>();
+
+        Lowest = Fitter.GetLowest();
 
         for (int i = 0; i < elementKeys.Count;i++)
         {
