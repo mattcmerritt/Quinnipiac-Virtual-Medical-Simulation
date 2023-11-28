@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: need to design some sort of "OngoingTrackable" that doesn't end until the simulation ends
-// TODO: need to add Deactivate and CompleteStatistic calls
 public class RampingAudioInteractions : Trackable
 {
     // data points set in builder/scene
@@ -41,7 +39,6 @@ public class RampingAudioInteractions : Trackable
         Noise.loop = Loop;
         Noise.volume = InitialVolume;
 
-        // Noise = GetComponent<AudioSource>();
         Muted = false;
     }
 
@@ -81,7 +78,5 @@ public class RampingAudioInteractions : Trackable
         float PercentTimeBelowThreshold = (Duration - TimeAboveThreshold) / Duration;
         Deactivate(PercentTimeBelowThreshold);
         CompleteStatistic();
-
-        Debug.Log("Volume Accuracy: " + Accuracy); // TODO: remove later
     }
 }
