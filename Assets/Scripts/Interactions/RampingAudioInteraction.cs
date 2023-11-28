@@ -40,6 +40,8 @@ public class RampingAudioInteraction : Trackable
         Noise.volume = InitialVolume;
 
         Muted = false;
+
+        Noise.Play();
     }
 
     protected new void Update()
