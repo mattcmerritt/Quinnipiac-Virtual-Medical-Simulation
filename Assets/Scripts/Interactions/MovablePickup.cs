@@ -7,6 +7,7 @@ public class MovablePickup : Trackable
 {
     [SerializeField] private string TargetName;
     [SerializeField] private GameObject Target;
+    [SerializeField] private List<Prerequisite> PrerequisiteSteps;
 
     protected new void Start()
     {
@@ -32,7 +33,16 @@ public class MovablePickup : Trackable
         {
             if (selectEnterEventArgs.interactorObject.transform.gameObject == Target)
             {
-                Deactivate(1);
+                float score = 1;
+                foreach (Prerequisite prerequisite in PrerequisiteSteps)
+                {
+                    if (!prerequisite.CheckSatisfied())
+                    {
+                        score -= prerequisite.GetPenalty();
+                    }
+                }
+
+                Deactivate(score);
                 CompleteStatistic();
             }
         }

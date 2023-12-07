@@ -59,7 +59,17 @@ public class DisplayTextInteraction : Trackable
     {
         TextBox.text = TextToDisplay.text;
         DisplayTextCanvas.enabled = true;
-        Deactivate(1); // TODO: make some sort of time-based calculation rather than 1
+
+        float score = 1;
+        foreach (Prerequisite prerequisite in PrerequisiteSteps)
+        {
+            if (!prerequisite.CheckSatisfied())
+            {
+                score -= prerequisite.GetPenalty();
+            }
+        }
+
+        Deactivate(score);
         CompleteStatistic();
     }
 

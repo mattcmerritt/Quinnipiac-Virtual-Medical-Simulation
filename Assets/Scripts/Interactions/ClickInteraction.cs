@@ -8,6 +8,7 @@ public class ClickInteraction : Trackable
     // Data to manually generate interaction script components
     // [SerializeField] private string ClickableObjectName;
     // [SerializeField] private GameObject ClickableObject;
+    [SerializeField] private List<Prerequisite> PrerequisiteSteps;
 
     protected new void Start()
     {
@@ -40,7 +41,16 @@ public class ClickInteraction : Trackable
         // as soon as the player first picks up the object, start tracking the time
         if (selectExitEventArgs.interactorObject.transform.CompareTag("Player"))
         {
-            Deactivate(1);
+            float score = 1;
+            foreach (Prerequisite prerequisite in PrerequisiteSteps)
+            {
+                if (!prerequisite.CheckSatisfied())
+                {
+                    score -= prerequisite.GetPenalty();
+                }
+            }
+
+            Deactivate(score);
             CompleteStatistic();
         }
     }
