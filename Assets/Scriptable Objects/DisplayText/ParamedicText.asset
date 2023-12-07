@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec702541c272eeb47a8ece24c0a4ee47, type: 3}
   m_Name: ParamedicText
   m_EditorClassIdentifier: 
-  Text: "The paramedic says:\n\n\u201CWe have a 43 year-old male with no past medical
+  text: "The paramedic says:\n\n\u201CWe have a 43 year-old male with no past medical
     history who was just involved in an altercation at a bar in which he was stabbed
     multiple times in the chest and abdomen. On our arrival, he was a GCS of 14 with
     mild confusion, intoxicated and there was a bunch of blood found at the scene.
