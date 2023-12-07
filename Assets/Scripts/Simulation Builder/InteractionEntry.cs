@@ -30,9 +30,13 @@ public class InteractionEntry : MonoBehaviour
 
     // Data that is sepcific to certain classes of interaction
     // Audio interaction data
-    private float VolumeIncreaseTimeInterval, VolumeIncreaseMagnitude, AcceptableVolumeThreshold, InitialVolume;
-    private bool Loop;
-    private string SelectedAudioSource;
+    [SerializeField] private float VolumeIncreaseTimeInterval, VolumeIncreaseMagnitude, AcceptableVolumeThreshold, InitialVolume;
+    [SerializeField] private bool Loop;
+    [SerializeField] private string SelectedAudioSource;
+
+    // Display text interaction
+    [SerializeField] private bool TextInitiallyActive;
+    [SerializeField] private string TextToDisplay;
 
     private void Start()
     {
@@ -210,7 +214,7 @@ public class InteractionEntry : MonoBehaviour
                     new List<float> { -60, 10 },
                     new List<float> { -40 },
                     new List<float> { -60, 10 },
-                    new List<float> { -60, 50 }
+                    new List<float> { -60, 45 }
                 };
 
                 List<List<string>> rowItemData = new List<List<string>>
@@ -228,11 +232,11 @@ public class InteractionEntry : MonoBehaviour
                 //      would allow for leveraging generics
                 List<List<UnityAction<string>>> stringEvents = new List<List<UnityAction<string>>>
                 {
-                    new List<UnityAction<string>> { (string input) => { if (Int32.TryParse(input, out int value)) VolumeIncreaseTimeInterval = value; } },
-                    new List<UnityAction<string>> { (string input) => { if (Int32.TryParse(input, out int value)) VolumeIncreaseMagnitude = value; } },
-                    new List<UnityAction<string>> { (string input) => { if (Int32.TryParse(input, out int value)) AcceptableVolumeThreshold = value; } },
+                    new List<UnityAction<string>> { (string input) => { if (float.TryParse(input, out float value)) VolumeIncreaseTimeInterval = value; } },
+                    new List<UnityAction<string>> { (string input) => { if (float.TryParse(input, out float value)) VolumeIncreaseMagnitude = value; } },
+                    new List<UnityAction<string>> { (string input) => { if (float.TryParse(input, out float value)) AcceptableVolumeThreshold = value; } },
                     null,
-                    new List<UnityAction<string>> { (string input) => { if (Int32.TryParse(input, out int value)) InitialVolume = value; } },
+                    new List<UnityAction<string>> { (string input) => { if (float.TryParse(input, out float value)) InitialVolume = value; } },
                     null,
                 };
 
@@ -271,8 +275,84 @@ public class InteractionEntry : MonoBehaviour
                     {
                         TMP_Dropdown drop = rowItems[1].GetComponent<TMP_Dropdown>();
                         drop.ClearOptions();
-                        drop.AddOptions(new List<string> { "BackgroundTalking" });
-                        drop.onValueChanged.AddListener((int index) => SelectedAudioSource = drop.options[drop.value].text);
+                        // TODO: load these options from a resource folder
+                        drop.AddOptions(new List<string> { "BackgroundTalking", "None" });
+                        SelectedAudioSource = drop.options[0].text;
+                        drop.onValueChanged.AddListener((int index) => SelectedAudioSource = drop.options[index].text);
+                    }
+
+                    // resizing and scaling elements to fit
+                    simBuilder.UpdateListSizes();
+                }
+            }
+            else if (InteractionType == "Display Text Task" && !HasAccuracyRequirements)
+            {
+                // Mark that the new fields have been added
+                HasAccuracyRequirements = true;
+
+                // Data to load in the new fields
+                // TODO: find a way to possibly compress this into some sort of structure
+                //      would be ideal if we could make a tuple
+                //      likely possible with structs
+                List<List<string>> nameRows = new List<List<string>>
+                {
+                    new List<string> { "Text Object Label", "Text Object Dropdown" },
+                    new List<string> { "Initially Active Toggle"}
+                };
+
+                List<List<string>> prefabRows = new List<List<string>>
+                {
+                    new List<string> { "Text", "Dropdown" },
+                    new List<string> { "Toggle" }
+                };
+
+                List<List<float>> positions = new List<List<float>>
+                {   
+                    new List<float> { -60, 45 },
+                    new List<float> { -40 }
+                };
+
+                List<List<string>> rowItemData = new List<List<string>>
+                {
+                    new List<string> { "Text:" },
+                    new List<string> { "Active:" }
+                };
+
+                // constructing the interaction's new fields
+                SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
+                for (int row = 0; row < nameRows.Count; row++)
+                {
+                    // adding content
+                    List<GameObject> rowItems = ContentAdder.AddLayerOfElements(prefabRows[row], positions[row], nameRows[row]);
+
+                    // configuring labels to read with proper text
+                    if (prefabRows[row][0] == "Text")
+                    {
+                        rowItems[0].GetComponent<TMP_Text>().text = rowItemData[row][0];
+                    }
+                    // update toggle text and add listener
+                    else if (prefabRows[row][0] == "Toggle")
+                    {
+                        rowItems[0].GetComponentInChildren<TMP_Text>().text = rowItemData[row][0];
+                        // TODO: when generics and objects are implemented, make this its own unity action rather than being hard coded
+                        rowItems[0].GetComponent<Toggle>().onValueChanged.AddListener((bool value) => TextInitiallyActive = value);
+                    }
+
+                    // adding the listener to the new text field to track the value input in this class
+                    if (prefabRows[row].Count == 1)
+                    {
+                        continue; // continue to next row
+                    }
+                    // preparing dropdown options
+                    // TODO: when generics and objects are implemented, make this its own unity action rather than being hard coded
+                    else if (prefabRows[row][1] == "Dropdown")
+                    {
+                        TMP_Dropdown drop = rowItems[1].GetComponent<TMP_Dropdown>();
+                        drop.ClearOptions();
+                        // TODO: load these options from a resource folder
+                        drop.AddOptions(new List<string> { "ParamedicText", "None" });
+                        TextToDisplay = drop.options[0].text;
+                        drop.onValueChanged.AddListener((int index) => TextToDisplay = drop.options[drop.value].text);
                     }
 
                     // resizing and scaling elements to fit
