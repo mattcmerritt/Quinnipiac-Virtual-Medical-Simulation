@@ -30,13 +30,16 @@ public class InteractionEntry : MonoBehaviour
 
     // Data that is sepcific to certain classes of interaction
     // Audio interaction data
-    [SerializeField] private float VolumeIncreaseTimeInterval, VolumeIncreaseMagnitude, AcceptableVolumeThreshold, InitialVolume;
-    [SerializeField] private bool Loop;
-    [SerializeField] private string SelectedAudioSource;
+
+    // TODO: Look into using backing fields and get/set structure to reduce the need for accessors / mutators
+    //      currently made everything public but this is not a good solution
+    public float VolumeIncreaseTimeInterval, VolumeIncreaseMagnitude, AcceptableVolumeThreshold, InitialVolume;
+    public bool Loop;
+    public string SelectedAudioSource;
 
     // Display text interaction
-    [SerializeField] private bool TextInitiallyActive;
-    [SerializeField] private string TextToDisplay;
+    public bool TextInitiallyActive;
+    public string TextToDisplay;
 
     private void Start()
     {
