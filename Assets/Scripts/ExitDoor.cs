@@ -37,6 +37,8 @@ public class ExitDoor : MonoBehaviour
         // TODO: mark all running Trackables as completed so they are gathered in the statistics at the end
 
         List<Statistic> statistics = StatisticManager.Instance.GetStatistics();
+        Debrief brief = FindObjectOfType<Debrief>();
+        brief.generateDebrief(statistics);
 
         if (statistics.Count != 0)
         {
