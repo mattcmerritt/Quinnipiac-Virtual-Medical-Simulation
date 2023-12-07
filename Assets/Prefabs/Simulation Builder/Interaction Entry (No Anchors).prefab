@@ -135,6 +135,10 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Touch Task
       m_Image: {fileID: 0}
+    - m_Text: Audio Task
+      m_Image: {fileID: 0}
+    - m_Text: Display Text Task
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -741,6 +745,10 @@ MonoBehaviour:
   IdText: {fileID: 8283085915976706295}
   ObjectId: 
   InteractionType: 
+  HasAccuracyRequirements: 0
+  AccuracyPenalty: 0
+  DurationRequired: 0
+  PrerequisiteList: 
   PrerequisiteDropdowns: []
   AccuracyFields: []
   ContentAdder: {fileID: 263848185152877251}
@@ -783,11 +791,13 @@ MonoBehaviour:
   - Dropdown
   - Integer Input
   - Decimal Input
+  - Toggle
   UIObjectGameObject:
   - {fileID: 1516303775877141697, guid: f72c5c2816fa4ad44bc5740c03e3e6d4, type: 3}
   - {fileID: 3008799034537819004, guid: 125496ae360b27e47b23e8627a7e2574, type: 3}
   - {fileID: 1290922091818288858, guid: a066977fcbf2c8346afe640f165bfe88, type: 3}
   - {fileID: 8730308170464614031, guid: 1cd5c6fe429ee334b8ff63c00f907dac, type: 3}
+  - {fileID: 3492012383203073226, guid: 4c8878353e8cc8a4fa7c2d825d08e7e5, type: 3}
 --- !u!1 &1771587001466059544
 GameObject:
   m_ObjectHideFlags: 0
