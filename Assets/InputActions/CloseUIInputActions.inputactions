@@ -1,5 +1,5 @@
 {
-    "name": "XR Device Controller Controls",
+    "name": "CloseUIInputActions",
     "maps": [
         {
             "name": "Controller",
@@ -302,6 +302,28 @@
                 },
                 {
                     "name": "",
+                    "id": "1daeeca6-cb18-4144-8602-6ce4e2a89185",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "28cd9e2f-16b5-4f39-a0a1-4647d801962d",
+                    "path": "<XRController>{RightHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "4f6dfc4a-38d9-455d-9364-3a188b0e9326",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -326,6 +348,28 @@
                     "name": "",
                     "id": "ea519284-21dc-448c-b6af-6dfae5dc2af4",
                     "path": "<XRController>{RightHand}/triggerButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fa2250c0-b8d9-44fd-b6ca-2aa189c6b776",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fac3981e-719e-4089-afac-0da995aae8be",
+                    "path": "<XRController>{RightHand}/gripPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
