@@ -20,6 +20,8 @@ public class ToggleObject : MonoBehaviour
     private void Start()
     {
         Player = FindObjectOfType<XROrigin>().gameObject;
+        IsActive = false;
+        ObjectToEnable.SetActive(false);
     }
 
     private void Update()

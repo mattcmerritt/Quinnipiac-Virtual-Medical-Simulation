@@ -293,6 +293,7 @@ MonoBehaviour:
   Duration: 0
   Accuracy: 0
   Started: 0
+  InteractionId: 0
   NearbyObjectName: Sink
   NearbyObject: {fileID: 0}
   RelativeLocation: {x: 0, y: 1, z: 0}
@@ -450,9 +451,9 @@ MonoBehaviour:
   Duration: 0
   Accuracy: 0
   Started: 0
-  TextBox: {fileID: 0}
+  InteractionId: 0
   TextToDisplay: {fileID: 11400000, guid: 27e56cc76622deb49a377a3d116a8cdb, type: 2}
-  InitiallyActive: 0
+  IsTaskInitiallyActive: 0
   PrerequisiteSteps: []
 --- !u!114 &142753872
 MonoBehaviour:
@@ -1356,7 +1357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectToEnable: {fileID: 1943665012}
-  DistanceToDisable: 3
+  DistanceToDisable: 10
 --- !u!4 &503457771
 Transform:
   m_ObjectHideFlags: 0
@@ -2215,6 +2216,7 @@ MonoBehaviour:
   Duration: 0
   Accuracy: 0
   Started: 0
+  InteractionId: 0
 --- !u!114 &757025845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4575,6 +4577,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 982774039535060526, guid: 5c3c8e58c7cf4e44d8b71b3ddc5e2222, type: 3}
+      propertyPath: DistanceToDisable
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5338835367469684833, guid: 5c3c8e58c7cf4e44d8b71b3ddc5e2222, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.366534
@@ -6309,9 +6315,9 @@ MonoBehaviour:
   Duration: 0
   Accuracy: 0
   Started: 0
-  TextBox: {fileID: 0}
+  InteractionId: 0
   TextToDisplay: {fileID: 11400000, guid: 27e56cc76622deb49a377a3d116a8cdb, type: 2}
-  InitiallyActive: 0
+  IsTaskInitiallyActive: 0
   PrerequisiteSteps: []
 --- !u!114 &1747869211
 MonoBehaviour:
@@ -7717,8 +7723,9 @@ MonoBehaviour:
   Duration: 0
   Accuracy: 0
   Started: 0
-  IncreaseTimeInterval: 5
-  VolumeIncreaseInterval: 0.1
+  InteractionId: 0
+  VolumeIncreaseTimeInterval: 0
+  VolumeIncreaseMagnitude: 0
   AcceptableVolumeThreshold: 0.7
   Loop: 1
   InitialVolume: 0.2
@@ -7874,7 +7881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectToEnable: {fileID: 1552544565}
-  DistanceToDisable: 3
+  DistanceToDisable: 10
 --- !u!4 &1942728864
 Transform:
   m_ObjectHideFlags: 0
@@ -8352,7 +8359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectToEnable: {fileID: 9130944968615157502}
-  DistanceToDisable: 3
+  DistanceToDisable: 10
 --- !u!1 &1684975267575546965
 GameObject:
   m_ObjectHideFlags: 0
@@ -9019,9 +9026,9 @@ MonoBehaviour:
   Duration: 0
   Accuracy: 0
   Started: 0
-  TextBox: {fileID: 0}
+  InteractionId: 0
   TextToDisplay: {fileID: 11400000, guid: 27e56cc76622deb49a377a3d116a8cdb, type: 2}
-  InitiallyActive: 1
+  IsTaskInitiallyActive: 0
   PrerequisiteSteps: []
 --- !u!114 &6788763440214154806
 MonoBehaviour:
