@@ -7,6 +7,7 @@ using MongoDB.Bson;
 using System.Linq;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Threading.Tasks;
+using System;
 
 public class SimulationBuilderUI : MonoBehaviour
 {
@@ -29,11 +30,25 @@ public class SimulationBuilderUI : MonoBehaviour
     [SerializeField] private List<string> InteractionIds;
     [SerializeField] private string SimulationName;
 
-    //MongoDB
-    //DO NOT LEAVE THIS IN PRODUCTION
-    private string ConnectionString = "mongodb+srv://admin:capybara@cluster0.4pk1iio.mongodb.net/?retryWrites=true&w=majority";
+    //MongoDB (relies on Secrets)
+    private string ConnectionString;
     private static IMongoCollection<Scene> sceneCollection;
-    
+
+    private void Awake()
+    {
+        // TODO: diagnose issue that is preventing secrets from being found unless selected in editor
+        Secret[] secrets = Resources.FindObjectsOfTypeAll<Secret>();
+        // Debug.Log(secrets.Length);
+        Secret secret = Array.Find<Secret>(secrets, (Secret s) => s.name == "DatabaseConnection");
+        ConnectionString = secret.Content;
+
+        Debug.Log(ConnectionString);
+
+        //Create MongoDB client
+        var client = new MongoClient(ConnectionString);
+        var database = client.GetDatabase("simulation");
+        sceneCollection = database.GetCollection<Scene>("scene");
+    }
 
     private void Start()
     {
@@ -41,11 +56,6 @@ public class SimulationBuilderUI : MonoBehaviour
         ObjectIds = new List<string>();
         InteractionEntries = new List<InteractionEntry>();
         InteractionIds = new List<string>();
-
-        //Create MongoDB client
-        var client = new MongoClient(ConnectionString);
-        var database = client.GetDatabase("simulation");
-        sceneCollection = database.GetCollection<Scene>("scene");
     }
 
     public void SwitchToObjectsTab()

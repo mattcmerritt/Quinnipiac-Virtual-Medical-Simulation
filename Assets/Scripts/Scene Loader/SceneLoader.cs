@@ -99,7 +99,7 @@ public class SceneLoader : MonoBehaviour
 
             // creating the position vector using the positional data and the bounds of the room
             // TODO: implement in a way that better supports different room shapes and sizes
-            Vector3 position = new Vector3(obj.x / MaxPositionDimension * RealMaxPosition, selectedPrefab.transform.localScale.y / 2f, obj.y / MaxPositionDimension * RealMaxPosition);
+            Vector3 position = new Vector3(obj.x / MaxPositionDimension * RealMaxPosition, selectedPrefab.transform.localScale.y / 2f + obj.height, obj.y / MaxPositionDimension * RealMaxPosition);
 
             // creating and tagging the object
             GameObject newRoomElement = Instantiate(selectedPrefab, position, Quaternion.identity);
