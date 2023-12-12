@@ -142,8 +142,11 @@ public class SceneLoader : MonoBehaviour
             else if (inter.interaction_type == "Audio Task")
             {
                 // Toggle script necessary for supporting interaction
-                ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
-                toggleObj.DistanceToDisable = 10;
+                if (roomObject.GetComponent<ToggleObject>() == null)
+                {
+                    ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
+                    toggleObj.DistanceToDisable = 10;
+                }
 
                 RampingAudioInteraction audioInter = roomObject.AddComponent<RampingAudioInteraction>();
                 audioInter.AddUIPrefabs(InteractionUIPrefab, InteractionUIButtonPrefab);
@@ -154,8 +157,11 @@ public class SceneLoader : MonoBehaviour
             else if (inter.interaction_type == "Display Text Task")
             {
                 // Toggle script necessary for supporting interaction
-                ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
-                toggleObj.DistanceToDisable = 10;
+                if (roomObject.GetComponent<ToggleObject>() == null)
+                {
+                    ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
+                    toggleObj.DistanceToDisable = 10;
+                }
 
                 DisplayTextInteraction textInter = roomObject.AddComponent<DisplayTextInteraction>();
                 textInter.AddUIPrefabs(InteractionUIPrefab, InteractionUIButtonPrefab);
