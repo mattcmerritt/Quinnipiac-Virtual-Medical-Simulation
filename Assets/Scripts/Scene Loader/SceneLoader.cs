@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine.UI;
 using MongoDB.Bson.Serialization.IdGenerators;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -141,33 +142,61 @@ public class SceneLoader : MonoBehaviour
             }
             else if (inter.interaction_type == "Audio Task")
             {
+                // attach outline script to object
+                Outline outlineScript = roomObject.AddComponent<Outline>();
+                outlineScript.OutlineColor = new Color(255, 252, 102);
+                outlineScript.OutlineWidth = 7;
+
                 // Toggle script necessary for supporting interaction
-                if (roomObject.GetComponent<ToggleObject>() == null)
-                {
-                    ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
-                    toggleObj.DistanceToDisable = 10;
-                }
+                ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
+                toggleObj.DistanceToDisable = 10;
 
                 RampingAudioInteraction audioInter = roomObject.AddComponent<RampingAudioInteraction>();
                 audioInter.AddUIPrefabs(InteractionUIPrefab, InteractionUIButtonPrefab);
                 audioInter.AddDetails(inter.volume_increase_time_interval, inter.volume_increase_magnitude, inter.acceptable_volume_threshold, inter.loop, inter.initial_volume, inter.selected_audio_soure);
                 audioInter.SetInteractionId(inter.interaction_id);
                 interactions.Add(audioInter);
+
+                // handle callbacks for XRSimpleInteractable
+                XRSimpleInteractable XRSimpleInteractableComponent = roomObject.GetComponent<XRSimpleInteractable>();
+                XRSimpleInteractableComponent.hoverEntered.AddListener((HoverEnterEventArgs) => {
+                    outlineScript.enabled = true;
+                });
+                XRSimpleInteractableComponent.hoverExited.AddListener((HoverExitEventArgs) => {
+                    outlineScript.enabled = false;
+                });
+                XRSimpleInteractableComponent.selectEntered.AddListener((SelectEnterEventArgs) => {
+                    toggleObj.ToggleObjectEnabled();
+                });
             }
             else if (inter.interaction_type == "Display Text Task")
             {
+                // attach outline script to object
+                Outline outlineScript = roomObject.AddComponent<Outline>();
+                outlineScript.OutlineColor = new Color(255, 252, 102);
+                outlineScript.OutlineWidth = 7;
+
                 // Toggle script necessary for supporting interaction
-                if (roomObject.GetComponent<ToggleObject>() == null)
-                {
-                    ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
-                    toggleObj.DistanceToDisable = 10;
-                }
+                ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
+                toggleObj.DistanceToDisable = 10;
 
                 DisplayTextInteraction textInter = roomObject.AddComponent<DisplayTextInteraction>();
                 textInter.AddUIPrefabs(InteractionUIPrefab, InteractionUIButtonPrefab);
                 textInter.AddDetails(inter.text_to_display, inter.text_initially_active);
                 textInter.SetInteractionId(inter.interaction_id);
                 interactions.Add(textInter);
+
+                // handle callbacks for XRSimpleInteractable
+                XRSimpleInteractable XRSimpleInteractableComponent = roomObject.GetComponent<XRSimpleInteractable>();
+                XRSimpleInteractableComponent.hoverEntered.AddListener((HoverEnterEventArgs) => {
+                    outlineScript.enabled = true;
+                });
+                XRSimpleInteractableComponent.hoverExited.AddListener((HoverExitEventArgs) => {
+                    outlineScript.enabled = false;
+                });
+                XRSimpleInteractableComponent.selectEntered.AddListener((SelectEnterEventArgs) => {
+                    toggleObj.ToggleObjectEnabled();
+                });
             }
         }
 
