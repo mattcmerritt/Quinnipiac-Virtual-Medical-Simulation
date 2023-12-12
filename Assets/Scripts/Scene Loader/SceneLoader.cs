@@ -146,6 +146,7 @@ public class SceneLoader : MonoBehaviour
                 Outline outlineScript = roomObject.AddComponent<Outline>();
                 outlineScript.OutlineColor = new Color(255, 252, 102);
                 outlineScript.OutlineWidth = 7;
+                outlineScript.enabled = false;
 
                 // Toggle script necessary for supporting interaction
                 ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
@@ -175,6 +176,7 @@ public class SceneLoader : MonoBehaviour
                 Outline outlineScript = roomObject.AddComponent<Outline>();
                 outlineScript.OutlineColor = new Color(255, 252, 102);
                 outlineScript.OutlineWidth = 7;
+                outlineScript.enabled = false;
 
                 // Toggle script necessary for supporting interaction
                 ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
