@@ -60,6 +60,11 @@ public abstract class Trackable : MonoBehaviour
         return Accuracy;
     }
 
+    public void SetTaskName(string taskName)
+    {
+        TaskName = taskName;
+    }
+
     public void ResetStatistics()
     {
         Duration = 0;
