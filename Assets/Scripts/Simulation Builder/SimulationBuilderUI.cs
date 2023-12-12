@@ -158,7 +158,7 @@ public class SimulationBuilderUI : MonoBehaviour
         for (int i = 0; i < InteractionEntries.Count; i++)
         {
             InteractionEntry interactionEntry = InteractionEntries[i];
-            iData.Add(new InteractionData(System.Int32.Parse(interactionEntry.GetObjectId()), interactionEntry.GetInteractionType(), interactionEntry.GetPrerequisiteList(), interactionEntry.GetAccuracyPenalty(), interactionEntry.GetDuration(), interactionEntry.VolumeIncreaseTimeInterval, interactionEntry.VolumeIncreaseMagnitude, interactionEntry.AcceptableVolumeThreshold, interactionEntry.InitialVolume, interactionEntry.Loop, interactionEntry.SelectedAudioSource, interactionEntry.TextInitiallyActive, interactionEntry.TextToDisplay));
+            iData.Add(new InteractionData(System.Int32.Parse(interactionEntry.GetObjectId()), interactionEntry.GetInteractionId(), interactionEntry.GetInteractionType(), interactionEntry.GetPrerequisiteList(), interactionEntry.GetAccuracyPenalty(), interactionEntry.GetDuration(), interactionEntry.VolumeIncreaseTimeInterval, interactionEntry.VolumeIncreaseMagnitude, interactionEntry.AcceptableVolumeThreshold, interactionEntry.InitialVolume, interactionEntry.Loop, interactionEntry.SelectedAudioSource, interactionEntry.TextInitiallyActive, interactionEntry.TextToDisplay));
         }
         Scene newScene = new()
         {
@@ -208,6 +208,7 @@ public class ObjectData
 public class InteractionData
 {
     public int object_id { get; set; }
+    public int interaction_id { get; set; }
     public string interaction_type { get; set; }
 
     [BsonElement("prerequisites")]
@@ -230,9 +231,10 @@ public class InteractionData
     public bool text_initially_active { get; set; }
     public string text_to_display { get; set; }
 
-    public InteractionData(int object_id, string interaction_type, List<int> prereqlist, float accuracy_penalty, float duration_required)
+    public InteractionData(int object_id, int interaction_id, string interaction_type, List<int> prereqlist, float accuracy_penalty, float duration_required)
     {
         this.object_id = object_id;
+        this.interaction_id = interaction_id;
         this.interaction_type = interaction_type;
         this.prereqlist = prereqlist;
         this.accuracy_penalty = accuracy_penalty;
@@ -240,7 +242,7 @@ public class InteractionData
     }
 
     // TODO: remove this when better object heirarchies are possible
-    public InteractionData(int object_id, string interaction_type, List<int> prereqlist, float accuracy_penalty, float duration_required, float volume_increase_time_interval, float volume_increase_magnitude, float acceptable_volume_threshold, float initial_volume, bool loop, string selected_audio_soure, bool text_initially_active, string text_to_display) : this(object_id, interaction_type, prereqlist, accuracy_penalty, duration_required)
+    public InteractionData(int object_id, int interaction_id, string interaction_type, List<int> prereqlist, float accuracy_penalty, float duration_required, float volume_increase_time_interval, float volume_increase_magnitude, float acceptable_volume_threshold, float initial_volume, bool loop, string selected_audio_soure, bool text_initially_active, string text_to_display) : this(object_id, interaction_id, interaction_type, prereqlist, accuracy_penalty, duration_required) 
     {
         this.volume_increase_time_interval = volume_increase_time_interval;
         this.volume_increase_magnitude = volume_increase_magnitude;

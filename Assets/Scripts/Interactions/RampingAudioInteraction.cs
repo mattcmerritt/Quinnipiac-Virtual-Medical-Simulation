@@ -11,7 +11,6 @@ public class RampingAudioInteraction : Trackable
     [SerializeField] private bool Loop;
     [SerializeField] private float InitialVolume;
     [SerializeField] private AudioSourceDetails AudioDetails;
-    [SerializeField] private List<Prerequisite> PrerequisiteSteps;
 
     // internals for use during runtime
     private AudioSource Noise;

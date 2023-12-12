@@ -10,6 +10,14 @@ public class Prerequisite
     [SerializeField] private float RequiredDuration = 0;
     [SerializeField] private float FailurePenalty = 0.25f;
 
+    public Prerequisite(Trackable trackable, float requiredAccuracy, float requiredDuration, float failurePenalty)
+    {
+        Trackable = trackable;
+        RequiredAccuracy = requiredAccuracy;
+        RequiredDuration = requiredDuration;
+        FailurePenalty = failurePenalty;
+    }
+
     public bool CheckSatisfied()
     {
         return Trackable.GetAccuracy() >= RequiredAccuracy && Trackable.GetDuration() >= RequiredDuration;

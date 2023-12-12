@@ -9,7 +9,6 @@ public class DisplayTextInteraction : Trackable
     // data points set in builder/scene
     [SerializeField] private DisplayText TextToDisplay;
     [SerializeField] private bool IsTaskInitiallyActive;
-    [SerializeField] private List<Prerequisite> PrerequisiteSteps;
 
     // internals for use during runtime
     private GameObject Player;

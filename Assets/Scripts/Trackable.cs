@@ -18,6 +18,9 @@ public abstract class Trackable : MonoBehaviour
     // Data for identifying this interaction
     [SerializeField] private int InteractionId;
 
+    // Prerequisite requirements
+    [SerializeField] protected List<Prerequisite> PrerequisiteSteps = new List<Prerequisite>();
+
     protected void Start()
     {
         OnStatisticCompleted += StatisticManager.Instance.SaveNewStatistic;
@@ -76,5 +79,10 @@ public abstract class Trackable : MonoBehaviour
     public int GetInteractionId()
     {
         return InteractionId;
+    }
+
+    public void AddPrerequisite(Prerequisite prerequisite)
+    {
+        PrerequisiteSteps.Add(prerequisite);
     }
 }

@@ -16,9 +16,6 @@ public class ProximityInteraction : Trackable
     [SerializeField] private float RequiredDuration = 20;
     [SerializeField] private float FailurePenalty = 0.5f;
 
-    // Steps attached to this event as prerequesite missions
-    [SerializeField] private List<Prerequisite> PrerequisiteSteps;
-
     protected new void Start()
     {
         base.Start();

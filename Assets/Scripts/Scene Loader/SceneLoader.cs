@@ -122,25 +122,38 @@ public class SceneLoader : MonoBehaviour
             {
                 ProximityInteraction proxInter = roomObject.AddComponent<ProximityInteraction>();
                 proxInter.SetDurationAccuracy(inter.duration_required, inter.accuracy_penalty);
+                proxInter.SetInteractionId(inter.interaction_id);
                 interactions.Add(proxInter);
             }
             else if (inter.interaction_type == "Touch Task")
             {
                 ClickInteraction clickInter = roomObject.AddComponent<ClickInteraction>();
+                clickInter.SetInteractionId(inter.interaction_id);
                 interactions.Add(clickInter);
             }
             else if (inter.interaction_type == "Transport Task")
             {
                 Debug.Log("<color=red>LOADER:</color> The transport task is not currently supported in the simulation loader!");
             }
+            else if (inter.interaction_type == "Audio Task")
+            {
+                RampingAudioInteraction audioInter = roomObject.AddComponent<RampingAudioInteraction>();
+                // TODO: Load in settings
+                audioInter.SetInteractionId(inter.interaction_id);
+                interactions.Add(audioInter);
+            }
+            else if (inter.interaction_type == "Display Text Task")
+            {
+                DisplayTextInteraction textInter = roomObject.AddComponent<DisplayTextInteraction>();
+                // TODO: Load in settings
+                textInter.SetInteractionId(inter.interaction_id);
+                interactions.Add(textInter);
+            }
         }
 
-        // listing the prerequisites for each interaction
+        // iterate through the interactions
         foreach (InteractionData inter in s.Interactions)
         {
-            // DEBUG
-            Debug.Log($"{inter.interaction_type}: on {inter.object_id}");
-
             // Finding the associated room object
             RoomObject desiredRoomObject = roomObjects.Find((RoomObject ro) =>
             {
@@ -148,25 +161,26 @@ public class SceneLoader : MonoBehaviour
             });
             GameObject roomObject = desiredRoomObject.gameObject;
 
-            // Finding the interactions listed as prereqs
-            foreach (Trackable t in interactions)
+            // Finding the currently selected interaction
+            Trackable interactionScript = interactions.Find((Trackable t) =>
             {
-                // TODO: match prereq ids to trackables and build a list
-            }
+                return t.GetInteractionId() == inter.interaction_id;
+            });
 
-            // TODO: revisit when prerequisites (hopefully with polymorphism at the trackable level)
-            if (inter.interaction_type == "Proximity Task")
+            // step through all the prereqs and assign them to the trackable
+            foreach (int prereqInterId in inter.prereqlist)
             {
-                ProximityInteraction proxInter = roomObject.GetComponent<ProximityInteraction>();
-                Debug.Log("<color=red>LOADER:</color> The proximity task is not currently supported for prerequisites in the simulation loader!");
-            }
-            else if (inter.interaction_type == "Touch Task")
-            {
-                Debug.Log("<color=red>LOADER:</color> The touch task is not currently supported for prerequisites in the simulation loader!");
-            }
-            else if (inter.interaction_type == "Transport Task")
-            {
-                Debug.Log("<color=red>LOADER:</color> The transport task is not currently supported for prerequisites the simulation loader!");
+                // find the associated id
+                Trackable prereqInteraction = interactions.Find((Trackable t) =>
+                {
+                    return t.GetInteractionId() == prereqInterId;
+                });
+
+                // TODO: need to add a way to load in the numbers for duration, accuracy required, and accuracy penalty
+                Prerequisite newPrereq = new Prerequisite(prereqInteraction, 1, 0, 0.25f);
+
+                // attach the prerequisite interaction to the interaction
+                interactionScript.AddPrerequisite(newPrereq);
             }
         }
     }

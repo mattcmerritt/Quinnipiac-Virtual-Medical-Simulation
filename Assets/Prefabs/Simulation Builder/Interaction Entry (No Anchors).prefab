@@ -129,11 +129,9 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Transport Task
+    - m_Text: Touch Task
       m_Image: {fileID: 0}
     - m_Text: Proximity Task
-      m_Image: {fileID: 0}
-    - m_Text: Touch Task
       m_Image: {fileID: 0}
     - m_Text: Audio Task
       m_Image: {fileID: 0}
@@ -480,7 +478,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Transport Task
+  m_text: Touch Task
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -752,6 +750,15 @@ MonoBehaviour:
   PrerequisiteDropdowns: []
   AccuracyFields: []
   ContentAdder: {fileID: 263848185152877251}
+  InteractionId: 0
+  VolumeIncreaseTimeInterval: 0
+  VolumeIncreaseMagnitude: 0
+  AcceptableVolumeThreshold: 0
+  InitialVolume: 0
+  Loop: 0
+  SelectedAudioSource: 
+  TextInitiallyActive: 0
+  TextToDisplay: 
 --- !u!114 &1949855516207010607
 MonoBehaviour:
   m_ObjectHideFlags: 0

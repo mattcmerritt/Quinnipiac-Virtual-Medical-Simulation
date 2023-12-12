@@ -8,7 +8,6 @@ public class ClickInteraction : Trackable
     // Data to manually generate interaction script components
     // [SerializeField] private string ClickableObjectName;
     // [SerializeField] private GameObject ClickableObject;
-    [SerializeField] private List<Prerequisite> PrerequisiteSteps;
 
     protected new void Start()
     {

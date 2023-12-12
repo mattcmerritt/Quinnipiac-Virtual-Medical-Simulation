@@ -25,7 +25,7 @@ public class InteractionEntry : MonoBehaviour
     [SerializeField] private ContentAdder ContentAdder;
 
     // Data
-    private int InteractionId;
+    [SerializeField] private int InteractionId;
     private List<string> SavedInteractionIds;
 
     // Data that is sepcific to certain classes of interaction
@@ -73,6 +73,11 @@ public class InteractionEntry : MonoBehaviour
     public string GetObjectId()
     {
         return ObjectId;
+    }
+
+    public int GetInteractionId()
+    {
+        return InteractionId;
     }
 
     public string GetInteractionType()
@@ -136,61 +141,68 @@ public class InteractionEntry : MonoBehaviour
         else
         {
             // TODO: put this in a function or a separate adder, but not here
-            if (InteractionType == "Proximity Task" && !HasAccuracyRequirements)
+            if (!HasAccuracyRequirements)
             {
-                // Mark that the new fields have been added
-                HasAccuracyRequirements = true;
+                // TODO: remove this and add support for swapping out the interactions
+                InteractionDropdown.interactable = false;
 
-                // Data to load in the new fields
-                List<string> namesRow1 = new List<string> { "Duration Label", "Duration Input" };
-                List<string> namesRow2 = new List<string> { "Accuracy Label", "Accuracy Input" };
-                List<string> prefabsRow1 = new List<string> { "Text", "Integer Input" };
-                List<string> prefabsRow2 = new List<string> { "Text", "Decimal Input" };
-                List<float> positions = new List<float> { -60, 0 };
+                if (InteractionType == "Proximity Task")
+                {
+                    // Mark that the new fields have been added
+                    HasAccuracyRequirements = true;
 
-                // adding and setting up listeners for the duration input
-                List<GameObject> row1Items = ContentAdder.AddLayerOfElements(prefabsRow1, positions, namesRow1);
-                row1Items[0].GetComponent<TMP_Text>().text = "Duration:";
-                AccuracyFields.Add(row1Items[1].GetComponent<TMP_InputField>());
+                    // Data to load in the new fields
+                    List<string> namesRow1 = new List<string> { "Duration Label", "Duration Input" };
+                    List<string> namesRow2 = new List<string> { "Accuracy Label", "Accuracy Input" };
+                    List<string> prefabsRow1 = new List<string> { "Text", "Integer Input" };
+                    List<string> prefabsRow2 = new List<string> { "Text", "Decimal Input" };
+                    List<float> positions = new List<float> { -60, 0 };
 
-                // adding the listener to the new duration text field to track the value input in this class
-                row1Items[1].GetComponent<TMP_InputField>().onValueChanged.AddListener((string duration) => {
-                    if (Int32.TryParse(duration, out int durationValue))
+                    // adding and setting up listeners for the duration input
+                    List<GameObject> row1Items = ContentAdder.AddLayerOfElements(prefabsRow1, positions, namesRow1);
+                    row1Items[0].GetComponent<TMP_Text>().text = "Duration:";
+                    AccuracyFields.Add(row1Items[1].GetComponent<TMP_InputField>());
+
+                    // adding the listener to the new duration text field to track the value input in this class
+                    row1Items[1].GetComponent<TMP_InputField>().onValueChanged.AddListener((string duration) =>
                     {
-                        DurationRequired = durationValue;
-                    }
-                });
+                        if (Int32.TryParse(duration, out int durationValue))
+                        {
+                            DurationRequired = durationValue;
+                        }
+                    });
 
-                // resizing and scaling elements to fit
-                SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
-                simBuilder.UpdateListSizes();
+                    // resizing and scaling elements to fit
+                    SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
+                    simBuilder.UpdateListSizes();
 
-                // adding and setting up listeners for the accuracy penalty input
-                List<GameObject> row2Items = ContentAdder.AddLayerOfElements(prefabsRow2, positions, namesRow2);
-                row2Items[0].GetComponent<TMP_Text>().text = "Accuracy:";
-                AccuracyFields.Add(row2Items[1].GetComponent<TMP_InputField>());
+                    // adding and setting up listeners for the accuracy penalty input
+                    List<GameObject> row2Items = ContentAdder.AddLayerOfElements(prefabsRow2, positions, namesRow2);
+                    row2Items[0].GetComponent<TMP_Text>().text = "Accuracy:";
+                    AccuracyFields.Add(row2Items[1].GetComponent<TMP_InputField>());
 
-                // adding the listener to the new accuracy text field to track the value input in this class
-                row2Items[1].GetComponent<TMP_InputField>().onValueChanged.AddListener((string accuracy) => {
-                    if (float.TryParse(accuracy, out float accuracyValue))
+                    // adding the listener to the new accuracy text field to track the value input in this class
+                    row2Items[1].GetComponent<TMP_InputField>().onValueChanged.AddListener((string accuracy) =>
                     {
-                        AccuracyPenalty = accuracyValue;
-                    }
-                });
+                        if (float.TryParse(accuracy, out float accuracyValue))
+                        {
+                            AccuracyPenalty = accuracyValue;
+                        }
+                    });
 
-                // final resizing and scaling elements to fit
-                simBuilder.UpdateListSizes();
-            }
-            else if (InteractionType == "Audio Task" && !HasAccuracyRequirements)
-            {
-                // Mark that the new fields have been added
-                HasAccuracyRequirements = true;
+                    // final resizing and scaling elements to fit
+                    simBuilder.UpdateListSizes();
+                }
+                else if (InteractionType == "Audio Task")
+                {
+                    // Mark that the new fields have been added
+                    HasAccuracyRequirements = true;
 
-                // Data to load in the new fields
-                // TODO: find a way to possibly compress this into some sort of structure
-                //      would be ideal if we could make a tuple
-                //      likely possible with structs
-                List<List<string>> nameRows = new List<List<string>>
+                    // Data to load in the new fields
+                    // TODO: find a way to possibly compress this into some sort of structure
+                    //      would be ideal if we could make a tuple
+                    //      likely possible with structs
+                    List<List<string>> nameRows = new List<List<string>>
                 {
                     new List<string> { "Time Interval Label", "Time Interval Input" },
                     new List<string> { "Magnitude Increase Label", "Magnitude Increase Input" },
@@ -200,7 +212,7 @@ public class InteractionEntry : MonoBehaviour
                     new List<string> { "Audio Source Label", "Audio Source Dropdown" }
                 };
 
-                List<List<string>> prefabRows = new List<List<string>>
+                    List<List<string>> prefabRows = new List<List<string>>
                 {
                     new List<string> { "Text", "Decimal Input" },
                     new List<string> { "Text", "Decimal Input" },
@@ -210,7 +222,7 @@ public class InteractionEntry : MonoBehaviour
                     new List<string> { "Text", "Dropdown" }
                 };
 
-                List<List<float>> positions = new List<List<float>>
+                    List<List<float>> positions = new List<List<float>>
                 {
                     new List<float> { -60, 10 },
                     new List<float> { -60, 10 },
@@ -220,7 +232,7 @@ public class InteractionEntry : MonoBehaviour
                     new List<float> { -60, 45 }
                 };
 
-                List<List<string>> rowItemData = new List<List<string>>
+                    List<List<string>> rowItemData = new List<List<string>>
                 {
                     new List<string> { "Interval:" },
                     new List<string> { "Magnitude:" },
@@ -230,10 +242,10 @@ public class InteractionEntry : MonoBehaviour
                     new List<string> { "Audio:" },
                 };
 
-                // TODO: find a way to merge all three event listener lists into a single list
-                //      one solution could be to design a lot of objects to set up inheritance
-                //      would allow for leveraging generics
-                List<List<UnityAction<string>>> stringEvents = new List<List<UnityAction<string>>>
+                    // TODO: find a way to merge all three event listener lists into a single list
+                    //      one solution could be to design a lot of objects to set up inheritance
+                    //      would allow for leveraging generics
+                    List<List<UnityAction<string>>> stringEvents = new List<List<UnityAction<string>>>
                 {
                     new List<UnityAction<string>> { (string input) => { if (float.TryParse(input, out float value)) VolumeIncreaseTimeInterval = value; } },
                     new List<UnityAction<string>> { (string input) => { if (float.TryParse(input, out float value)) VolumeIncreaseMagnitude = value; } },
@@ -243,123 +255,124 @@ public class InteractionEntry : MonoBehaviour
                     null,
                 };
 
-                // constructing the interaction's new fields
-                SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
-                for (int row = 0; row < nameRows.Count; row++)
-                {
-                    // adding content
-                    List<GameObject> rowItems = ContentAdder.AddLayerOfElements(prefabRows[row], positions[row], nameRows[row]);
+                    // constructing the interaction's new fields
+                    SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
+                    for (int row = 0; row < nameRows.Count; row++)
+                    {
+                        // adding content
+                        List<GameObject> rowItems = ContentAdder.AddLayerOfElements(prefabRows[row], positions[row], nameRows[row]);
 
-                    // configuring labels to read with proper text
-                    if (prefabRows[row][0] == "Text")
-                    {
-                        rowItems[0].GetComponent<TMP_Text>().text = rowItemData[row][0];
-                    }
-                    // update toggle text and add listener
-                    else if (prefabRows[row][0] == "Toggle")
-                    {
-                        rowItems[0].GetComponentInChildren<TMP_Text>().text = rowItemData[row][0];
+                        // configuring labels to read with proper text
+                        if (prefabRows[row][0] == "Text")
+                        {
+                            rowItems[0].GetComponent<TMP_Text>().text = rowItemData[row][0];
+                        }
+                        // update toggle text and add listener
+                        else if (prefabRows[row][0] == "Toggle")
+                        {
+                            rowItems[0].GetComponentInChildren<TMP_Text>().text = rowItemData[row][0];
+                            // TODO: when generics and objects are implemented, make this its own unity action rather than being hard coded
+                            rowItems[0].GetComponent<Toggle>().onValueChanged.AddListener((bool value) => Loop = value);
+                        }
+
+                        // adding the listener to the new text field to track the value input in this class
+                        if (prefabRows[row].Count == 1)
+                        {
+                            continue; // continue to next row
+                        }
+                        else if (prefabRows[row][1].Contains("Input"))
+                        {
+                            rowItems[1].GetComponent<TMP_InputField>().onValueChanged.AddListener(stringEvents[row][0]);
+                        }
+                        // preparing dropdown options
                         // TODO: when generics and objects are implemented, make this its own unity action rather than being hard coded
-                        rowItems[0].GetComponent<Toggle>().onValueChanged.AddListener((bool value) => Loop = value);
-                    }
+                        else if (prefabRows[row][1] == "Dropdown")
+                        {
+                            TMP_Dropdown drop = rowItems[1].GetComponent<TMP_Dropdown>();
+                            drop.ClearOptions();
+                            // TODO: load these options from a resource folder
+                            drop.AddOptions(new List<string> { "BackgroundTalking", "None" });
+                            SelectedAudioSource = drop.options[0].text;
+                            drop.onValueChanged.AddListener((int index) => SelectedAudioSource = drop.options[index].text);
+                        }
 
-                    // adding the listener to the new text field to track the value input in this class
-                    if (prefabRows[row].Count == 1)
-                    {
-                        continue; // continue to next row
+                        // resizing and scaling elements to fit
+                        simBuilder.UpdateListSizes();
                     }
-                    else if (prefabRows[row][1].Contains("Input"))
-                    {
-                        rowItems[1].GetComponent<TMP_InputField>().onValueChanged.AddListener(stringEvents[row][0]);
-                    }
-                    // preparing dropdown options
-                    // TODO: when generics and objects are implemented, make this its own unity action rather than being hard coded
-                    else if (prefabRows[row][1] == "Dropdown")
-                    {
-                        TMP_Dropdown drop = rowItems[1].GetComponent<TMP_Dropdown>();
-                        drop.ClearOptions();
-                        // TODO: load these options from a resource folder
-                        drop.AddOptions(new List<string> { "BackgroundTalking", "None" });
-                        SelectedAudioSource = drop.options[0].text;
-                        drop.onValueChanged.AddListener((int index) => SelectedAudioSource = drop.options[index].text);
-                    }
-
-                    // resizing and scaling elements to fit
-                    simBuilder.UpdateListSizes();
                 }
-            }
-            else if (InteractionType == "Display Text Task" && !HasAccuracyRequirements)
-            {
-                // Mark that the new fields have been added
-                HasAccuracyRequirements = true;
+                else if (InteractionType == "Display Text Task")
+                {
+                    // Mark that the new fields have been added
+                    HasAccuracyRequirements = true;
 
-                // Data to load in the new fields
-                // TODO: find a way to possibly compress this into some sort of structure
-                //      would be ideal if we could make a tuple
-                //      likely possible with structs
-                List<List<string>> nameRows = new List<List<string>>
+                    // Data to load in the new fields
+                    // TODO: find a way to possibly compress this into some sort of structure
+                    //      would be ideal if we could make a tuple
+                    //      likely possible with structs
+                    List<List<string>> nameRows = new List<List<string>>
                 {
                     new List<string> { "Text Object Label", "Text Object Dropdown" },
                     new List<string> { "Initially Active Toggle"}
                 };
 
-                List<List<string>> prefabRows = new List<List<string>>
+                    List<List<string>> prefabRows = new List<List<string>>
                 {
                     new List<string> { "Text", "Dropdown" },
                     new List<string> { "Toggle" }
                 };
 
-                List<List<float>> positions = new List<List<float>>
-                {   
+                    List<List<float>> positions = new List<List<float>>
+                {
                     new List<float> { -60, 45 },
                     new List<float> { -40 }
                 };
 
-                List<List<string>> rowItemData = new List<List<string>>
+                    List<List<string>> rowItemData = new List<List<string>>
                 {
                     new List<string> { "Text:" },
                     new List<string> { "Active:" }
                 };
 
-                // constructing the interaction's new fields
-                SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
-                for (int row = 0; row < nameRows.Count; row++)
-                {
-                    // adding content
-                    List<GameObject> rowItems = ContentAdder.AddLayerOfElements(prefabRows[row], positions[row], nameRows[row]);
+                    // constructing the interaction's new fields
+                    SimulationBuilderUI simBuilder = FindObjectOfType<SimulationBuilderUI>();
+                    for (int row = 0; row < nameRows.Count; row++)
+                    {
+                        // adding content
+                        List<GameObject> rowItems = ContentAdder.AddLayerOfElements(prefabRows[row], positions[row], nameRows[row]);
 
-                    // configuring labels to read with proper text
-                    if (prefabRows[row][0] == "Text")
-                    {
-                        rowItems[0].GetComponent<TMP_Text>().text = rowItemData[row][0];
-                    }
-                    // update toggle text and add listener
-                    else if (prefabRows[row][0] == "Toggle")
-                    {
-                        rowItems[0].GetComponentInChildren<TMP_Text>().text = rowItemData[row][0];
+                        // configuring labels to read with proper text
+                        if (prefabRows[row][0] == "Text")
+                        {
+                            rowItems[0].GetComponent<TMP_Text>().text = rowItemData[row][0];
+                        }
+                        // update toggle text and add listener
+                        else if (prefabRows[row][0] == "Toggle")
+                        {
+                            rowItems[0].GetComponentInChildren<TMP_Text>().text = rowItemData[row][0];
+                            // TODO: when generics and objects are implemented, make this its own unity action rather than being hard coded
+                            rowItems[0].GetComponent<Toggle>().onValueChanged.AddListener((bool value) => TextInitiallyActive = value);
+                        }
+
+                        // adding the listener to the new text field to track the value input in this class
+                        if (prefabRows[row].Count == 1)
+                        {
+                            continue; // continue to next row
+                        }
+                        // preparing dropdown options
                         // TODO: when generics and objects are implemented, make this its own unity action rather than being hard coded
-                        rowItems[0].GetComponent<Toggle>().onValueChanged.AddListener((bool value) => TextInitiallyActive = value);
-                    }
+                        else if (prefabRows[row][1] == "Dropdown")
+                        {
+                            TMP_Dropdown drop = rowItems[1].GetComponent<TMP_Dropdown>();
+                            drop.ClearOptions();
+                            // TODO: load these options from a resource folder
+                            drop.AddOptions(new List<string> { "ParamedicText", "None" });
+                            TextToDisplay = drop.options[0].text;
+                            drop.onValueChanged.AddListener((int index) => TextToDisplay = drop.options[drop.value].text);
+                        }
 
-                    // adding the listener to the new text field to track the value input in this class
-                    if (prefabRows[row].Count == 1)
-                    {
-                        continue; // continue to next row
+                        // resizing and scaling elements to fit
+                        simBuilder.UpdateListSizes();
                     }
-                    // preparing dropdown options
-                    // TODO: when generics and objects are implemented, make this its own unity action rather than being hard coded
-                    else if (prefabRows[row][1] == "Dropdown")
-                    {
-                        TMP_Dropdown drop = rowItems[1].GetComponent<TMP_Dropdown>();
-                        drop.ClearOptions();
-                        // TODO: load these options from a resource folder
-                        drop.AddOptions(new List<string> { "ParamedicText", "None" });
-                        TextToDisplay = drop.options[0].text;
-                        drop.onValueChanged.AddListener((int index) => TextToDisplay = drop.options[drop.value].text);
-                    }
-
-                    // resizing and scaling elements to fit
-                    simBuilder.UpdateListSizes();
                 }
             }
         }
