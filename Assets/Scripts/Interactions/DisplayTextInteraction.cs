@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.XR.CoreUtils;
 using TMPro;
+using UnityEngine.UI;
 
 public class DisplayTextInteraction : Trackable
 {
@@ -16,9 +17,30 @@ public class DisplayTextInteraction : Trackable
     private static Canvas DisplayTextCanvas;
     private TMP_Text TextBox;
 
+    // necessary components for attaching the interaction UI
+    private GameObject InteractionUI;
+    [SerializeField] public GameObject InteractionUIPrefab;
+    [SerializeField] public GameObject InteractionUIButtonPrefab;
+
     protected new void Start()
     {
         base.Start();
+
+        // spawn child objects
+        InteractionUI = Instantiate(InteractionUIPrefab, transform);
+        GameObject ButtonHolder = InteractionUI.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+        
+        GameObject TalkButtonObject = Instantiate(InteractionUIButtonPrefab, ButtonHolder.transform);
+        Button TalkButton = TalkButtonObject.GetComponent<Button>();
+        TalkButton.onClick.AddListener(() => {
+            DisplayText();
+            InteractionUI.SetActive(false);
+        });
+        TalkButton.GetComponentInChildren<TMP_Text>().text = "Talk";
+
+        // set up ToggleObject script to handle UI despawning at range
+        ToggleObject ToggleScript = GetComponent<ToggleObject>();
+        ToggleScript.SetObjectToToggle(InteractionUI);
 
         // if it is initially active, or if there are zero prerequisites, set the interaction as active so timer starts
         if (IsTaskInitiallyActive || PrerequisiteSteps.Count < 1)
