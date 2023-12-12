@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class RampingAudioInteraction : Trackable
 {
@@ -17,6 +19,11 @@ public class RampingAudioInteraction : Trackable
     private float RemainingTimeInInterval;
     private bool Muted;
     private float TimeAboveThreshold;
+
+    // necessary components for attaching the interaction UI
+    private GameObject InteractionUI;
+    [SerializeField] public GameObject InteractionUIPrefab;
+    [SerializeField] public GameObject InteractionUIButtonPrefab;
     
     private void OnEnable()
     {
@@ -31,6 +38,31 @@ public class RampingAudioInteraction : Trackable
     protected new void Start()
     {
         base.Start();
+
+        // spawn child objects
+        InteractionUI = Instantiate(InteractionUIPrefab, transform);
+        GameObject ButtonHolder = InteractionUI.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+        
+        GameObject QuietButtonObject = Instantiate(InteractionUIButtonPrefab, ButtonHolder.transform);
+        Button QuietButton = QuietButtonObject.GetComponent<Button>();
+        QuietButton.onClick.AddListener(() => {
+            QuietDown();
+            InteractionUI.SetActive(false);
+        });
+        QuietButton.GetComponentInChildren<TMP_Text>().text = "Quiet down";
+
+        GameObject MuteButtonObject = Instantiate(InteractionUIButtonPrefab, ButtonHolder.transform);
+        Button MuteButton = MuteButtonObject.GetComponent<Button>();
+        MuteButton.onClick.AddListener(() => {
+            ToggleMute();
+            InteractionUI.SetActive(false);
+        });
+        MuteButton.GetComponentInChildren<TMP_Text>().text = "Mute";
+
+        // set up ToggleObject script to handle UI despawning at range
+        ToggleObject ToggleScript = GetComponent<ToggleObject>();
+        ToggleScript.SetObjectToToggle(InteractionUI);
+        
         Activate();
         TimeAboveThreshold = 0;
 

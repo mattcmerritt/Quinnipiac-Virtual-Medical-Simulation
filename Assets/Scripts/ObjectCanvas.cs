@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ObjectCanvas : MonoBehaviour
 {
-    [SerializeField] GameObject ViewTarget;
+    GameObject ViewTarget;
 
-    void Start()
+    void OnEnable()
     {
         ViewTarget = Camera.main.gameObject;
     }

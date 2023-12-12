@@ -11,6 +11,12 @@ public class ToggleObject : MonoBehaviour
     [SerializeField] private float DistanceToDisable;
     private GameObject Player;
 
+    public void SetObjectToToggle(GameObject obj)
+    {
+        ObjectToEnable = obj;
+        Start();
+    }
+
     public void ToggleObjectEnabled()
     {
         IsActive = !IsActive;
@@ -19,17 +25,23 @@ public class ToggleObject : MonoBehaviour
 
     private void Start()
     {
-        Player = FindObjectOfType<XROrigin>().gameObject;
-        IsActive = false;
-        ObjectToEnable.SetActive(false);
+        if(ObjectToEnable != null) 
+        {
+            Player = FindObjectOfType<XROrigin>().gameObject;
+            IsActive = false;
+            ObjectToEnable.SetActive(false);
+        }
     }
 
     private void Update()
     {
-        if(Vector3.Distance(Player.transform.position, transform.position) > DistanceToDisable)
+        if(ObjectToEnable != null) 
         {
-            IsActive = false;
-            ObjectToEnable.SetActive(false);
+            if(Vector3.Distance(Player.transform.position, transform.position) > DistanceToDisable)
+            {
+                IsActive = false;
+                ObjectToEnable.SetActive(false);
+            }
         }
     }
 }
