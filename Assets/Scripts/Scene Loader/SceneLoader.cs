@@ -202,6 +202,12 @@ public class SceneLoader : MonoBehaviour
             }
         }
 
+        // TODO: remove with better loading functions at a later date
+        for (int i = 0; i < interactions.Count; i++)
+        {
+            interactions[i].SetTaskName("Task " + i);
+        }
+
         // iterate through the interactions
         foreach (InteractionData inter in s.Interactions)
         {

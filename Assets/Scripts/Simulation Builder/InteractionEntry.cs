@@ -53,7 +53,7 @@ public class InteractionEntry : MonoBehaviour
 
     private void Update()
     {
-        if (!string.IsNullOrEmpty(ObjectId) && ObjectDropdown.options.Count > 0)
+        if (string.IsNullOrEmpty(ObjectId) && ObjectDropdown.options.Count > 0)
         {
             ObjectId = ObjectDropdown.options[0].text;
         }
