@@ -25,6 +25,8 @@ public class DisplayTextInteraction : Trackable
     protected new void Start()
     {
         base.Start();
+        // TODO: should hook onto existing interface, if one exists
+        //  this is so that multiple interactions can be put on the same object
 
         // spawn child objects
         InteractionUI = Instantiate(InteractionUIPrefab, transform);
