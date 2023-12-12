@@ -8,7 +8,7 @@ public class ToggleObject : MonoBehaviour
 {
     private bool IsActive = false;
     [SerializeField] private GameObject ObjectToEnable;
-    [SerializeField] private float DistanceToDisable;
+    [SerializeField] public float DistanceToDisable;
     private GameObject Player;
 
     public void SetObjectToToggle(GameObject obj)

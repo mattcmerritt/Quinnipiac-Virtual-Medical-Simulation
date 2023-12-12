@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class RampingAudioInteraction : Trackable
 {
@@ -122,5 +123,29 @@ public class RampingAudioInteraction : Trackable
 
         Deactivate(score);
         CompleteStatistic();
+    }
+
+    public void AddDetails(float volumeIncreaseTimeInterval, float volumeIncreaseMagnitude, float acceptableVolumeThreshold, bool loop, float initialVolume, string audioDetailsName)
+    {
+        VolumeIncreaseTimeInterval = volumeIncreaseTimeInterval;
+        VolumeIncreaseMagnitude = volumeIncreaseMagnitude;
+        AcceptableVolumeThreshold = acceptableVolumeThreshold;
+        Loop = loop;
+        InitialVolume = initialVolume;
+
+        // searching for the associated asset in the resources library
+        // TODO: use larger, scalable resource library
+        if (audioDetailsName != "None")
+        {
+            AudioSourceDetails[] audioAssets = Resources.FindObjectsOfTypeAll<AudioSourceDetails>();
+            AudioSourceDetails audioSource = Array.Find<AudioSourceDetails>(audioAssets, (AudioSourceDetails asset) => asset.name == audioDetailsName);
+            AudioDetails = audioSource;
+        }
+    }
+
+    public void AddUIPrefabs(GameObject interactionUIPrefab, GameObject interactionUIButtonPrefab)
+    {
+        InteractionUIPrefab = interactionUIPrefab;
+        InteractionUIButtonPrefab = interactionUIButtonPrefab;
     }
 }

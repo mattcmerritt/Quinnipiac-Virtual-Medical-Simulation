@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.XR.CoreUtils;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class DisplayTextInteraction : Trackable
 {
@@ -97,5 +98,25 @@ public class DisplayTextInteraction : Trackable
     public static void CloseText()
     {
         DisplayTextCanvas.enabled = false;
+    }
+
+    public void AddDetails(string textName, bool initiallyActive)
+    {
+        // searching for the associated asset in the resources library
+        // TODO: use larger, scalable resource library
+        if (textName != "None")
+        {
+            DisplayText[] textAssets = Resources.FindObjectsOfTypeAll<DisplayText>();
+            DisplayText textSource = Array.Find<DisplayText>(textAssets, (DisplayText asset) => asset.name == textName);
+            TextToDisplay = textSource;
+        }
+
+        IsTaskInitiallyActive = initiallyActive;
+    }
+
+    public void AddUIPrefabs(GameObject interactionUIPrefab, GameObject interactionUIButtonPrefab)
+    {
+        InteractionUIPrefab = interactionUIPrefab;
+        InteractionUIButtonPrefab = interactionUIButtonPrefab;
     }
 }

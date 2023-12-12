@@ -27,6 +27,10 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private GameObject SceneButtonPrefab;
     [SerializeField] private GameObject LoadingUI;
 
+    // Important prefabs needed for interactions
+    [SerializeField] public GameObject InteractionUIPrefab;
+    [SerializeField] public GameObject InteractionUIButtonPrefab;
+
     // The database connection must be created immediately
     private void Awake()
     {
@@ -137,15 +141,25 @@ public class SceneLoader : MonoBehaviour
             }
             else if (inter.interaction_type == "Audio Task")
             {
+                // Toggle script necessary for supporting interaction
+                ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
+                toggleObj.DistanceToDisable = 10;
+
                 RampingAudioInteraction audioInter = roomObject.AddComponent<RampingAudioInteraction>();
-                // TODO: Load in settings
+                audioInter.AddUIPrefabs(InteractionUIPrefab, InteractionUIButtonPrefab);
+                audioInter.AddDetails(inter.volume_increase_time_interval, inter.volume_increase_magnitude, inter.acceptable_volume_threshold, inter.loop, inter.initial_volume, inter.selected_audio_soure);
                 audioInter.SetInteractionId(inter.interaction_id);
                 interactions.Add(audioInter);
             }
             else if (inter.interaction_type == "Display Text Task")
             {
+                // Toggle script necessary for supporting interaction
+                ToggleObject toggleObj = roomObject.AddComponent<ToggleObject>();
+                toggleObj.DistanceToDisable = 10;
+
                 DisplayTextInteraction textInter = roomObject.AddComponent<DisplayTextInteraction>();
-                // TODO: Load in settings
+                textInter.AddUIPrefabs(InteractionUIPrefab, InteractionUIButtonPrefab);
+                textInter.AddDetails(inter.text_to_display, inter.text_initially_active);
                 textInter.SetInteractionId(inter.interaction_id);
                 interactions.Add(textInter);
             }

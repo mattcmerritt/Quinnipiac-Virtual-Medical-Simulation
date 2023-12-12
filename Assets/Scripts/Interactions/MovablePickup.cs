@@ -7,7 +7,7 @@ public class MovablePickup : Trackable
 {
     [SerializeField] private string TargetName;
     [SerializeField] private GameObject Target;
-    [SerializeField] private List<Prerequisite> PrerequisiteSteps;
+    //[SerializeField] private List<Prerequisite> PrerequisiteSteps;
 
     protected new void Start()
     {
