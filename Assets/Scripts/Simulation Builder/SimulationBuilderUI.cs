@@ -42,7 +42,7 @@ public class SimulationBuilderUI : MonoBehaviour
         Secret secret = Array.Find<Secret>(secrets, (Secret s) => s.name == "DatabaseConnection");
         ConnectionString = secret.Content;
 
-        Debug.Log(ConnectionString);
+        // Debug.Log(ConnectionString);
 
         //Create MongoDB client
         var client = new MongoClient(ConnectionString);
